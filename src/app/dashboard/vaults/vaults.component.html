@@ -1,0 +1,40 @@
+<div class="vaults-container">
+  <!-- Sidebar filtre -->
+  <div class="vaults-sidebar">
+    <h4>Coffres</h4>
+    <ul>
+      <li (click)="selectVault('all')" [class.active]="selectedVault === 'all'">Tous les coffres</li>
+      <li (click)="selectVault('my')" [class.active]="selectedVault === 'my'">Mon coffre</li>
+      <li (click)="selectVault('newOrg')" [class.active]="selectedVault === 'newOrg'">Nouvelle organisation</li>
+    </ul>
+
+    <h4>Éléments</h4>
+    <ul>
+      <li (click)="selectType('all')" [class.active]="selectedType==='all'">Tous les éléments</li>
+      <li (click)="selectType('favoris')" [class.active]="selectedType==='favoris'">Favoris</li>
+      <li (click)="selectType('identifiant')" [class.active]="selectedType==='identifiant'">Identifiant</li>
+      <li (click)="selectType('carte')" [class.active]="selectedType==='carte'">Carte de paiement</li>
+      <li (click)="selectType('identite')" [class.active]="selectedType==='identite'">Identité</li>
+      <li (click)="selectType('note')" [class.active]="selectedType==='note'">Note</li>
+      <li (click)="selectType('ssh')" [class.active]="selectedType==='ssh'">Clé SSH</li>
+    </ul>
+
+    <h4>Dossiers</h4>
+    <ul>
+      <li (click)="selectFolder('none')" [class.active]="selectedFolder==='none'">Aucun dossier</li>
+      <li (click)="selectFolder('trash')" [class.active]="selectedFolder==='trash'">Corbeille</li>
+    </ul>
+  </div>
+
+  <!-- Zone de contenu des vaults -->
+  <div class="vaults-content">
+    <h3>Vaults</h3>
+    <div class="vaults-grid">
+      <div *ngFor="let vault of filteredVaults()" class="vault-card">
+        <h4>{{ vault.name }}</h4>
+        <p>{{ vault.type }}</p>
+      </div>
+      <div *ngIf="filteredVaults().length === 0">Aucun élément trouvé</div>
+    </div>
+  </div>
+</div>

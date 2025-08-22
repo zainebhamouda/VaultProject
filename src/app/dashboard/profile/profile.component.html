@@ -1,0 +1,43 @@
+<div class="profile-container">
+  <!-- Sidebar -->
+  <div class="profile-sidebar">
+    <div class="profile-pic">
+      <!-- Image si existe sinon icône -->
+      <ng-container *ngIf="profileImage; else defaultIcon">
+        <img [src]="profileImage" alt="Profile Image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+      </ng-container>
+      <ng-template #defaultIcon>
+        <span>👤</span>
+      </ng-template>
+
+      <!-- Bouton ajouter photo -->
+      <div class="add-photo" (click)="triggerFileInput(fileInput)">+</div>
+      <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)" accept="image/*" />
+    </div>
+
+    <div class="last-name">{{ lastName }}</div>
+  </div>
+
+  <!-- Formulaire -->
+  <div class="profile-form">
+    <form>
+      <div class="form-row">
+        <label>Last Name</label>
+        <input type="text" [(ngModel)]="lastName" name="lastName" [readonly]="!isEditing" />
+        
+        <label>First Name</label>
+        <input type="text" [(ngModel)]="firstName" name="firstName" [readonly]="!isEditing" />
+        
+        <label>Email</label>
+        <input type="email" [(ngModel)]="email" name="email" [readonly]="!isEditing" />
+        
+        
+      </div>
+
+      <div class="form-actions">
+        <button type="button" *ngIf="!isEditing" (click)="toggleEdit()">Edit</button>
+        <button type="button" *ngIf="isEditing" (click)="saveChanges()">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

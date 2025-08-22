@@ -1,0 +1,110 @@
+.profile-container {
+  display: flex;
+  gap: 20px;
+  padding: 60px;
+}
+
+/* Sidebar (photo + last name) */
+.profile-sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 15px;
+  border-right: 1px solid #ccc;
+}
+
+/* Cercle photo */
+.profile-pic {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #888;
+  overflow: hidden;
+}
+
+/* Petit cercle + */
+.profile-pic .add-photo {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 40px;
+  height: 40px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border: 2px solid #fff;
+}
+
+/* Nom affiché sous la photo */
+.profile-sidebar .last-name {
+  margin-top: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Formulaire */
+.profile-form {
+  flex: 3;
+  padding-left: 1px;
+}
+
+/* Champs en vertical */
+.form-row {
+  display: flex;
+  flex-direction: column;   /* champs l’un en dessous de l’autre */
+  gap: 10px;
+  margin-bottom: 15px;
+  max-width: 500px;         /* limite la largeur horizontale */
+  width: 100%;              /* prend toute la largeur dispo jusqu’à max-width */
+}
+
+.form-row input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* Boutons */
+.form-actions {
+  display: flex;
+  gap: 11px;
+  justify-content: flex-start;
+}
+
+.form-actions button {
+  padding: 10px 40px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
+
+.form-actions button:last-child {
+  background-color: #007bff;
+  padding: 10px px;
+  color: white;
+}
+
+.form-row label {
+  font-weight: bold; /* ou 700 */
+}
+
+input[readonly] {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}

@@ -1,0 +1,49 @@
+<div class="signup-container">
+  <div class="signup-card">
+
+    <!-- Logo + Nom -->
+    <div class="signup-header">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSclmibSDpUujubszI-Or3qZj83lifcSGoYNw&s" alt="SecureVault Logo">
+      <span class="brand-name">SecureVault</span>
+    </div>
+
+    <!-- Titre -->
+    <h3 class="signup-title">Create Your Account</h3>
+
+    <!-- Formulaire -->
+    <form (ngSubmit)="onSignup()" class="signup-form">
+
+      <!-- Full Name -->
+      <input type="text" [(ngModel)]="fullName" name="fullName" placeholder="Full Name"
+             (blur)="fullNameTouched = true">
+      <div *ngIf="fullNameInvalid" class="error-message">Full Name is required</div>
+
+      <!-- Email -->
+      <input type="email" [(ngModel)]="email" name="email" placeholder="Email"
+             (blur)="emailTouched = true">
+      <div *ngIf="emailInvalid" class="error-message">Email format is invalid</div>
+
+      <!-- Password -->
+      <input type="password" [(ngModel)]="password" name="password" placeholder="Password"
+             (blur)="passwordTouched = true">
+      <div *ngIf="passwordInvalid" class="error-message">Password must be at least 6 characters</div>
+
+      <!-- Confirm Password -->
+      <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Confirm Password"
+             (blur)="confirmPasswordTouched = true">
+      <div *ngIf="confirmPasswordInvalid" class="error-message">Passwords do not match</div>
+
+      <!-- Bouton -->
+      <button type="submit" class="btn-signup">
+        Sign Up
+      </button>
+    </form>
+
+    <!-- Déjà un compte ? -->
+    <p class="login-text">
+      Already have an account?
+      <a (click)="goToLogin()">Login</a>
+    </p>
+
+  </div>
+</div>

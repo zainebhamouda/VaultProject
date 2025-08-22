@@ -1,0 +1,56 @@
+.vaults-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Sidebar filtre */
+.vaults-sidebar {
+  width: 220px;
+  border-right: 1px solid #ccc;
+  padding-right: 15px;
+}
+
+.vaults-sidebar h4 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.vaults-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.vaults-sidebar ul li {
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.vaults-sidebar ul li.active,
+.vaults-sidebar ul li:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Zone de contenu */
+.vaults-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.vaults-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.vault-card {
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
