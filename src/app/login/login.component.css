@@ -94,11 +94,11 @@
 
 /* Bouton */
 .btn-login {
-  padding: 12px;
+  padding: 10px;
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 25px;
   font-size: 1rem;
   cursor: pointer;
   font-weight: bold;
@@ -116,3 +116,22 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px; /* espace pour l’icône */
+}
+
+.password-container i {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #666;
+}
+

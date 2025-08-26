@@ -58,4 +58,20 @@ export class SignupComponent {
   get confirmPasswordInvalid(): boolean {
     return this.confirmPasswordTouched && (this.confirmPassword !== this.password);
   }
+
+   showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
+
+  
+  
+
+  
+
+  togglePasswordVisibility(field: string) {
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = !this.showConfirmPassword;
+    }
+  }
 }

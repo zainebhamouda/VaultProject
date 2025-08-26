@@ -27,14 +27,38 @@
       <div *ngIf="emailInvalid" class="error-message">Email format is invalid</div>
 
       <!-- Password -->
-      <input type="password" [(ngModel)]="password" name="password" placeholder="Password"
-             (blur)="passwordTouched = true">
-      <div *ngIf="passwordInvalid" class="error-message">Password must be at least 6 characters</div>
+<div class="password-container">
+  <input 
+    [type]="showPassword ? 'text' : 'password'"
+    [(ngModel)]="password"
+    name="password"
+    placeholder="Password"
+    (blur)="passwordTouched = true"
+  >
+  <i class="fa" 
+     [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" 
+     (click)="togglePasswordVisibility('password')"></i>
+</div>
+<div *ngIf="passwordInvalid" class="error-message">
+  Password must be at least 6 characters
+</div>
 
-      <!-- Confirm Password -->
-      <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Confirm Password"
-             (blur)="confirmPasswordTouched = true">
-      <div *ngIf="confirmPasswordInvalid" class="error-message">Passwords do not match</div>
+<!-- Confirm Password -->
+<div class="password-container">
+  <input 
+    [type]="showConfirmPassword ? 'text' : 'password'"
+    [(ngModel)]="confirmPassword"
+    name="confirmPassword"
+    placeholder="Confirm Password"
+    (blur)="confirmPasswordTouched = true"
+  >
+  <i class="fa" 
+     [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'" 
+     (click)="togglePasswordVisibility('confirmPassword')"></i>
+</div>
+<div *ngIf="confirmPasswordInvalid" class="error-message">
+  Passwords do not match
+</div>
 
       <!-- Bouton -->
       <button type="submit" class="btn-signup">

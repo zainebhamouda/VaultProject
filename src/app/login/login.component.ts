@@ -52,4 +52,10 @@ export class LoginComponent {
   get passwordInvalid(): boolean {
     return this.passwordTouched && (!this.password || this.password.length < 6);
   }
+
+  showPassword = false;
+
+togglePasswordVisibility() {
+  this.showPassword = !this.showPassword;
+}
 }

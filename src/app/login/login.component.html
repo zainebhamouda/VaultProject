@@ -9,8 +9,11 @@
       <span class="brand-name">SecureVault</span>
     </div>
 
-    <!-- Titre -->
-    <h3 class="login-title">Login to Your Account</h3>
+    <!-- Titre avec icône -->
+    <h3 class="login-title">
+      
+      Login to Your Account
+    </h3>
 
     <!-- Formulaire -->
     <form (ngSubmit)="onLogin()" class="login-form">
@@ -23,11 +26,23 @@
       </div>
 
       <!-- Password -->
-      <input type="password" [(ngModel)]="password" name="password" placeholder="Password"
-             (blur)="passwordTouched = true">
-      <div *ngIf="passwordInvalid" class="error-message">
-        Password must be at least 6 characters
-      </div>
+<div class="password-container">
+  <input [type]="showPassword ? 'text' : 'password'" 
+         [(ngModel)]="password" 
+         name="password" 
+         placeholder="Password"
+         (blur)="passwordTouched = true">
+
+  <!-- Icône œil -->
+  <i class="fa" 
+     [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" 
+     (click)="togglePasswordVisibility()"></i>
+</div>
+
+<div *ngIf="passwordInvalid" class="error-message">
+  Password must be at least 6 characters
+</div>
+
 
       <button type="submit" class="btn-login">
         Login

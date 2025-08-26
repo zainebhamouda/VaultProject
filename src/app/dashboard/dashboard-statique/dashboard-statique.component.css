@@ -1,0 +1,101 @@
+.dashboard-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-refresh {
+  padding: 6px 12px;
+  background: #0066cc;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Stat cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: #d8dde1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #acacac;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px; /* réduit la hauteur */
+  background: #eee;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.progress {
+  height: 100%;
+  background: #0066cc;
+  border-radius: 6px;
+}
+
+/* Charts */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.chart-card {
+  background: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+/* Taille des canvas plus petite */
+.chart-card canvas {
+  width: 100% !important;
+  height: 180px !important; /* réduit la hauteur */
+}
+
+/* Recent activity */
+.activity-card {
+  background: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+}
+
+.activity-card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.activity-card th, 
+.activity-card td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.activity-card th {
+  background: #f5f5f5;
+}
+

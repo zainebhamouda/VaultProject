@@ -26,8 +26,10 @@ export class DashboardComponent implements OnInit {
           this.pageTitle = 'My Profile';
         } else if (url.includes('vaults')) {
           this.pageTitle = 'My Vaults';
-        } else if (url.includes('organisation')) {
-          this.pageTitle = 'New Organisation';
+        } else if (url.includes('new-organization')) {
+          this.pageTitle = 'New Organization';
+        } else if (url.includes('statique')) {
+          this.pageTitle = 'Dashboard';
         } else {
           this.pageTitle = 'My Profile';
         }

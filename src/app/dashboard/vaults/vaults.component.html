@@ -1,40 +1,111 @@
 <div class="vaults-container">
-  <!-- Sidebar filtre -->
-  <div class="vaults-sidebar">
-    <h4>Coffres</h4>
+  <!-- Sidebar filter -->
+  <aside class="vaults-sidebar">
+    <h4>FILTERS</h4>
+
+   <div class="search-box">
+  <i class="fas fa-search search-icon"></i>
+  <input type="text" placeholder="Search in the vaults" [(ngModel)]="searchText" />
+</div>
+
+
+    <h5 class="blue">Vaults</h5>
     <ul>
-      <li (click)="selectVault('all')" [class.active]="selectedVault === 'all'">Tous les coffres</li>
-      <li (click)="selectVault('my')" [class.active]="selectedVault === 'my'">Mon coffre</li>
-      <li (click)="selectVault('newOrg')" [class.active]="selectedVault === 'newOrg'">Nouvelle organisation</li>
+      <li (click)="selectVault('all')" [class.active]="selectedVault==='all'">
+        <i class="far fa-folder"></i>
+        <span>All Vaults</span>
+      </li>
+      <li (click)="selectVault('my')" [class.active]="selectedVault==='my'">
+        <i class="far fa-user"></i>
+        <span>My Vault</span>
+      </li>
+      <li (click)="goToNewOrganization()" [class.active]="selectedVault==='newOrg'">
+  <i class="far fa-building"></i>
+  <span>New Organization</span>
+</li>
     </ul>
 
-    <h4>Éléments</h4>
+    <h5 class="blue">Items</h5>
     <ul>
-      <li (click)="selectType('all')" [class.active]="selectedType==='all'">Tous les éléments</li>
-      <li (click)="selectType('favoris')" [class.active]="selectedType==='favoris'">Favoris</li>
-      <li (click)="selectType('identifiant')" [class.active]="selectedType==='identifiant'">Identifiant</li>
-      <li (click)="selectType('carte')" [class.active]="selectedType==='carte'">Carte de paiement</li>
-      <li (click)="selectType('identite')" [class.active]="selectedType==='identite'">Identité</li>
-      <li (click)="selectType('note')" [class.active]="selectedType==='note'">Note</li>
-      <li (click)="selectType('ssh')" [class.active]="selectedType==='ssh'">Clé SSH</li>
+      <li (click)="selectType('all')" [class.active]="selectedType==='all'">
+        <i class="far fa-file-alt"></i>
+        <span>All Items</span>
+      </li>
+      <li (click)="selectType('favorites')" [class.active]="selectedType==='favorites'">
+        <i class="far fa-star"></i>
+        <span>Favorites</span>
+      </li>
+      <li (click)="selectType('login')" [class.active]="selectedType==='login'">
+        <i class="far fa-globe"></i>
+        <span>Login</span>
+      </li>
+      <li (click)="selectType('card')" [class.active]="selectedType==='card'">
+        <i class="far fa-credit-card"></i>
+        <span>Payment Card</span>
+      </li>
+      <li (click)="selectType('identity')" [class.active]="selectedType==='identity'">
+        <i class="far fa-id-card"></i>
+        <span>Identity</span>
+      </li>
+      <li (click)="selectType('note')" [class.active]="selectedType==='note'">
+        <i class="far fa-sticky-note"></i>
+        <span>Note</span>
+      </li>
+      <li (click)="selectType('ssh')" [class.active]="selectedType==='ssh'">
+        <i class="far fa-key"></i>
+        <span>SSH Key</span>
+      </li>
     </ul>
 
-    <h4>Dossiers</h4>
+    <h5 class="blue">Folders</h5>
     <ul>
-      <li (click)="selectFolder('none')" [class.active]="selectedFolder==='none'">Aucun dossier</li>
-      <li (click)="selectFolder('trash')" [class.active]="selectedFolder==='trash'">Corbeille</li>
+      <li (click)="selectFolder('none')" [class.active]="selectedFolder==='none'">
+        <i class="far fa-folder-open"></i>
+        <span>No Folder</span>
+      </li>
+      <li (click)="selectFolder('trash')" [class.active]="selectedFolder==='trash'">
+        <i class="far fa-trash-alt"></i>
+        <span>Trash</span>
+      </li>
     </ul>
+  </aside>
+
+
+  <!-- Vaults content -->
+<main class="vaults-content">
+  <div class="vaults-header">
+    <h3>All Vaults</h3>
+    <button class="btn-new" >+ New</button>
   </div>
 
-  <!-- Zone de contenu des vaults -->
-  <div class="vaults-content">
-    <h3>Vaults</h3>
-    <div class="vaults-grid">
-      <div *ngFor="let vault of filteredVaults()" class="vault-card">
-        <h4>{{ vault.name }}</h4>
-        <p>{{ vault.type }}</p>
-      </div>
-      <div *ngIf="filteredVaults().length === 0">Aucun élément trouvé</div>
-    </div>
-  </div>
+  <table class="vaults-table">
+  <thead>
+    <tr>
+      <th>
+        <input type="checkbox" [checked]="allSelected" (change)="toggleAll($event)" />
+      </th>
+      <th>Name</th>
+      <th>Owner</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let vault of filteredVaults()">
+      <td>
+        <input type="checkbox" [(ngModel)]="vault.selected" (change)="checkIfAllSelected()" />
+      </td>
+      <td>{{ vault.name }}</td>
+      <td>{{ vault.owner }}</td>
+    </tr>
+    <tr *ngIf="filteredVaults().length === 0">
+      <td colspan="3" class="empty">
+        <div class="empty-state">
+          <p>No items to display.</p>
+          <button class="btn-new" (click)="goToNewOrganization()">+ New Item</button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</main>
 </div>
