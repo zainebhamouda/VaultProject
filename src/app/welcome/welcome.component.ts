@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./welcome.component.css']
 })
 export class WelcomeComponent {
+  featuresVisible = false;
   constructor(private router: Router) {}
 
   goToLogin() {
@@ -15,4 +16,5 @@ export class WelcomeComponent {
   goToSignUp(): void {
     this.router.navigate(['/signup']); 
   }
+  
 }
