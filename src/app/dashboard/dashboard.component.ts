@@ -16,26 +16,39 @@ export class DashboardComponent implements OnInit {
   profileImage: string | null = null;
 
   constructor(private router: Router) {}
+currentOrgName: string = '';
 
-  ngOnInit(): void {
-    // Écoute les changements de route pour mettre à jour le titre
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        const url = event.urlAfterRedirects;
-        if (url.includes('profile')) {
-          this.pageTitle = 'My Profile';
-        } else if (url.includes('vaults')) {
-          this.pageTitle = 'My Vaults';
-        } else if (url.includes('new-organization')) {
-          this.pageTitle = 'New Organization';
-        } else if (url.includes('statique')) {
-          this.pageTitle = 'Dashboard';
+ngOnInit(): void {
+  this.router.events.subscribe(event => {
+    if (event instanceof NavigationEnd) {
+      const url = event.urlAfterRedirects;
+
+      if (url.includes('profile')) {
+        this.pageTitle = 'My Profile';
+      } 
+      else if (url.includes('vaults')) {
+        const nav = this.router.getCurrentNavigation();
+        const state = nav?.extras?.state as { newOrg?: string };
+        if (state?.newOrg) {
+          // Affiche directement le nom de la nouvelle organisation
+          this.pageTitle = state.newOrg;
         } else {
-          this.pageTitle = 'My Profile';
+          this.pageTitle = 'My Vaults';
         }
+      } 
+      else if (url.includes('new-organization')) {
+        this.pageTitle = 'New Organization';
+      } 
+      else if (url.includes('statique')) {
+        this.pageTitle = 'Dashboard';
+      } 
+      else {
+        this.pageTitle = 'My Profile';
       }
-    });
-  }
+    }
+  });
+}
+
 
   toggleSidebar() {
     this.sidebarCollapsed = !this.sidebarCollapsed;

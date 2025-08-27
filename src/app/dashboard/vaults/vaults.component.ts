@@ -8,6 +8,7 @@ interface Vault {
   type: string;
   folder: string;
   owner: string;
+  organization?: string;
   selected?: boolean;
 }
 
@@ -19,69 +20,203 @@ interface Vault {
   styleUrls: ['./vaults.component.css']
 })
 export class VaultsComponent {
-  searchText: string = '';
-  selectedVault: string = 'all';
-  selectedType: string = 'all';
-  selectedFolder: string = 'none';
+  // ---- État global ----
+  searchText = '';
+  selectedVault = 'all';
+  selectedType = 'all';
+  selectedFolder = 'none';
+  selectedCollection = 'Default collection';
 
-organizations: string[] = ['All Vaults', 'My Vault', 'New Organization'];
-collections: string[] = [];
-selectedOrganization: string = 'All Vaults';
+  showTypeSelector = false;   // popup choix type
+  showAddForm = false;        // formulaire affiché
+  currentVaultType: string | null = null;
 
-constructor(private router: Router) {
-  const navigation = this.router.getCurrentNavigation();
-  const state = navigation?.extras?.state as { newOrg?: string };
+  // ---- Liste des types disponibles ----
+  vaultTypes = [
+    { key: 'login', label: 'Identifiant' },
+    { key: 'card', label: 'Carte de paiement' },
+    { key: 'identity', label: 'Identité' },
+    { key: 'note', label: 'Note' },
+    { key: 'ssh', label: 'Clé SSH' },
+    { key: 'folder', label: 'Dossier' },
+    { key: 'collection', label: 'Collection' }
+  ];
 
-  if (state?.newOrg) {
-    this.addNewOrganization(state.newOrg);
+  // ---- Champs du formulaire ----
+  newVaultName = '';
+  newVaultOwner = 'zaineb.hamouda09@gmail.com';
+  newVaultFolder = 'Aucun dossier';
+  newVaultUsername = '';
+  newVaultPassword = '';
+  newVaultCardNumber = '';
+  newVaultCardExpiry = '';
+  newVaultCardCVV = '';
+  newVaultNote = '';
+  newVaultIdentity = '';
+  newVaultSSHKey = '';
+
+  // ---- Données ----
+  vaults: Vault[] = [];
+  allSelected = false;
+  organizations: string[] = ['All Vaults', 'My Vault'];
+  folders: string[] = ['No Folder'];
+  orgCollectionsMap: { [key: string]: string[] } = {};
+
+  constructor(private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras?.state as { newOrg?: string };
+    if (state?.newOrg) {
+      this.addNewOrganization(state.newOrg);
+    }
   }
-}
 
-addNewOrganization(name: string) {
-  // insérer après "My Vault" et avant "New Organization"
-  this.organizations.splice(2, 0, name);
-  this.selectedOrganization = name;
+  // ---- Gestion organisations ----
+  addNewOrganization(name: string) {
+    if (!this.organizations.includes(name)) {
+      this.organizations.push(name);
+      this.orgCollectionsMap[name] = ['Default collection'];
+    }
+    this.selectedVault = name;
+    this.selectedCollection = this.orgCollectionsMap[name][0];
+  }
 
-  // ajouter les collections
-  this.collections = ['Collection par défaut', 'Corbeille'];
-}
+  goToNewOrganization() {
+    this.selectedVault = 'newOrg';
+    this.router.navigate(['/dashboard/new-organization']);
+  }
 
-goToNewOrganization() {
-  this.selectedVault = 'newOrg';
-  this.router.navigate(['/dashboard/new-organization']);
-}
-  vaults: Vault[] = [
-  { name: 'Google', type: 'identifiant', folder: 'none', owner: 'Moi', selected: false },
-  { name: 'Visa', type: 'carte', folder: 'none', owner: 'Moi', selected: false },
-  { name: 'Github SSH', type: 'ssh', folder: 'none', owner: 'Moi', selected: false },
-  { name: 'Bitwarden', type: 'identifiant', folder: 'trash', owner: 'Admin', selected: false },
-  { name: 'Note secrète', type: 'note', folder: 'none', owner: 'Zaineb', selected: false },
-];
-allSelected: boolean = false;
+  // ---- Gestion vaults ----
+  addVault(
+    name: string,
+    type: string,
+    folder: string,
+    owner: string,
+    organization: string
+  ) {
+    const newVault: Vault = { name, type, folder, owner, organization, selected: false };
+    this.vaults.push(newVault);
 
-toggleAll(event: Event) {
-  const checked = (event.target as HTMLInputElement).checked;
-  this.filteredVaults().forEach(v => v.selected = checked);
-  this.allSelected = checked;
-}
+    if (!this.organizations.includes(organization)) {
+      this.organizations.push(organization);
+      this.orgCollectionsMap[organization] = ['Default collection'];
+    }
 
-checkIfAllSelected() {
-  this.allSelected = this.filteredVaults().every(v => v.selected);
-}
-  selectVault(v: string) { this.selectedVault = v; }
+    this.resetForm();
+  }
+
+  // ---- Sélection type et formulaire ----
+  openTypeSelector() {
+    this.showTypeSelector = true;
+    this.showAddForm = false;
+  }
+
+  selectVaultType(type: string) {
+    this.currentVaultType = type;
+    this.showTypeSelector = false;
+    this.showAddForm = true;
+  }
+
+  closeForm() {
+    this.showAddForm = false;
+    this.currentVaultType = null;
+    this.resetForm();
+  }
+
+  // ---- Table Vaults ----
+  toggleAll(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.filteredVaults().forEach(v => (v.selected = checked));
+    this.allSelected = checked;
+  }
+
+  checkIfAllSelected() {
+    this.allSelected = this.filteredVaults().every(v => v.selected);
+  }
+
+  selectVault(v: string) {
+    this.selectedVault = v;
+    this.selectedCollection = this.orgCollectionsMap[v]?.[0] || 'Default collection';
+  }
+
   selectType(t: string) { this.selectedType = t; }
   selectFolder(f: string) { this.selectedFolder = f; }
-  
-  
-  filteredVaults() {
-  return this.vaults.filter(v =>
-    v.name.toLowerCase().includes(this.searchText.toLowerCase()) &&
-    (this.selectedVault === 'all' || 
-     (this.selectedVault === 'my' && v.folder === 'none') || 
-     (this.selectedVault === 'newOrg' && v.folder === 'newOrg')) &&
-    (this.selectedType === 'all' || this.selectedType === v.type) &&
-    (this.selectedFolder === 'all' || this.selectedFolder === v.folder)
-  );
+  selectCollection(c: string) { this.selectedCollection = c; }
+
+  filteredVaults(): Vault[] {
+    if (this.selectedVault === 'all') return this.vaults;
+    if (this.selectedVault === 'my') return this.vaults.filter(v => v.organization === 'My Vault');
+    return this.vaults.filter(v => v.organization === this.selectedVault);
+  }
+
+  showAddNewItemButton(): boolean {
+    return !!this.orgCollectionsMap[this.selectedVault];
+  }
+
+  showCollections(): boolean {
+    return !!this.orgCollectionsMap[this.selectedVault];
+  }
+
+  // ---- Utils ----
+  public resetForm() {
+    this.newVaultName = '';
+    this.newVaultFolder = 'Aucun dossier';
+    this.newVaultOwner = 'zaineb.hamouda09@gmail.com';
+    this.newVaultUsername = '';
+    this.newVaultPassword = '';
+    this.newVaultCardNumber = '';
+    this.newVaultCardExpiry = '';
+    this.newVaultCardCVV = '';
+    this.newVaultNote = '';
+    this.newVaultIdentity = '';
+    this.newVaultSSHKey = '';
+  }
+ 
+
+// ouvrir le formulaire pour + New Item
+openAddForm() {
+  this.currentVaultType = null;  // formulaire général
+  this.showAddForm = true;
 }
-  
+
+saveVaultByType() {
+  if (!this.currentVaultType) return;
+
+  switch (this.currentVaultType) {
+    case 'login':
+      this.addVault(
+        this.newVaultName,
+        'login',
+        this.newVaultFolder,
+        this.newVaultOwner,
+        'My Vault'
+      );
+      break;
+    case 'card':
+      this.addVault(
+        this.newVaultName,
+        'card',
+        this.newVaultFolder,
+        this.newVaultOwner,
+        'My Vault'
+      );
+      break;
+    case 'note':
+      this.addVault(
+        this.newVaultName,
+        'note',
+        this.newVaultFolder,
+        this.newVaultOwner,
+        'My Vault'
+      );
+      break;
+    // Ajouter les autres types si besoin : identity, ssh, folder, collection
+  }
+
+  // Réinitialiser le formulaire
+  this.resetForm();
+  this.showAddForm = false;
+}
+
+
+
 }

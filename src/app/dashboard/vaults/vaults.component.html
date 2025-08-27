@@ -1,111 +1,235 @@
 <div class="vaults-container">
   <!-- Sidebar filter -->
-  <aside class="vaults-sidebar">
-    <h4>FILTERS</h4>
+<aside class="vaults-sidebar">
+  <h4>FILTERS</h4>
 
-   <div class="search-box">
-  <i class="fas fa-search search-icon"></i>
-  <input type="text" placeholder="Search in the vaults" [(ngModel)]="searchText" />
-</div>
+  <div class="search-box">
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" placeholder="Search in the vaults" [(ngModel)]="searchText" />
+  </div>
+
+  <h5 class="blue">Vaults</h5>
+  <ul>
+    <li (click)="selectVault('all')" [class.active]="selectedVault==='all'">
+      <i class="far fa-folder"></i>
+      <span>All Vaults</span>
+    </li>
+    <li (click)="selectVault('my')" [class.active]="selectedVault==='my'">
+      <i class="far fa-user"></i>
+      <span>My Vault</span>
+    </li>
+    <li *ngFor="let org of organizations.slice(2)"  
+        (click)="selectVault(org)"
+        [class.active]="selectedVault===org">
+      <i class="far fa-building"></i>
+      <span>{{ org }}</span>
+    </li>
+    <li (click)="goToNewOrganization()" [class.active]="selectedVault==='newOrg'">
+      <i class="fas fa-plus"></i>
+      <span>New Organization</span>
+    </li>
+  </ul>
+
+  <h5 class="blue">Items</h5>
+  <ul>
+    <li (click)="selectType('all')" [class.active]="selectedType==='all'">
+      <i class="far fa-file-alt"></i>
+      <span>All Items</span>
+    </li>
+    <li (click)="selectType('favorites')" [class.active]="selectedType==='favorites'">
+      <i class="far fa-star"></i>
+      <span>Favorites</span>
+    </li>
+    <li (click)="selectType('login')" [class.active]="selectedType==='login'">
+      <i class="far fa-globe"></i>
+      <span>Login</span>
+    </li>
+    <li (click)="selectType('card')" [class.active]="selectedType==='card'">
+      <i class="far fa-credit-card"></i>
+      <span>Payment Card</span>
+    </li>
+    <li (click)="selectType('identity')" [class.active]="selectedType==='identity'">
+      <i class="far fa-id-card"></i>
+      <span>Identity</span>
+    </li>
+    <li (click)="selectType('note')" [class.active]="selectedType==='note'">
+      <i class="far fa-sticky-note"></i>
+      <span>Note</span>
+    </li>
+    <li (click)="selectType('ssh')" [class.active]="selectedType==='ssh'">
+      <i class="far fa-key"></i>
+      <span>SSH Key</span>
+    </li>
+  </ul>
+
+  <h5 class="blue">Folders</h5>
+  <ul>
+    <li (click)="selectFolder('none')" [class.active]="selectedFolder==='none'">
+      <i class="far fa-folder-open"></i>
+      <span>No Folder</span>
+    </li>
+    <li (click)="selectFolder('trash')" [class.active]="selectedFolder==='trash'">
+      <i class="far fa-trash-alt"></i>
+      <span>Trash</span>
+    </li>
+  </ul>
+
+  <!-- Collections, seulement si organisation sélectionnée -->
+  <h5 class="blue" *ngIf="showCollections()">Collections</h5>
+  <ul *ngIf="showCollections()">
+    <li *ngFor="let c of orgCollectionsMap[selectedVault]"
+        (click)="selectCollection(c)"
+        [class.active]="selectedCollection===c">
+      <i class="far fa-folder"></i>
+      <span>{{ c }}</span>
+    </li>
+  </ul>
+</aside>
 
 
-    <h5 class="blue">Vaults</h5>
-    <ul>
-      <li (click)="selectVault('all')" [class.active]="selectedVault==='all'">
-        <i class="far fa-folder"></i>
-        <span>All Vaults</span>
-      </li>
-      <li (click)="selectVault('my')" [class.active]="selectedVault==='my'">
-        <i class="far fa-user"></i>
-        <span>My Vault</span>
-      </li>
-      <li (click)="goToNewOrganization()" [class.active]="selectedVault==='newOrg'">
-  <i class="far fa-building"></i>
-  <span>New Organization</span>
-</li>
-    </ul>
-
-    <h5 class="blue">Items</h5>
-    <ul>
-      <li (click)="selectType('all')" [class.active]="selectedType==='all'">
-        <i class="far fa-file-alt"></i>
-        <span>All Items</span>
-      </li>
-      <li (click)="selectType('favorites')" [class.active]="selectedType==='favorites'">
-        <i class="far fa-star"></i>
-        <span>Favorites</span>
-      </li>
-      <li (click)="selectType('login')" [class.active]="selectedType==='login'">
-        <i class="far fa-globe"></i>
-        <span>Login</span>
-      </li>
-      <li (click)="selectType('card')" [class.active]="selectedType==='card'">
-        <i class="far fa-credit-card"></i>
-        <span>Payment Card</span>
-      </li>
-      <li (click)="selectType('identity')" [class.active]="selectedType==='identity'">
-        <i class="far fa-id-card"></i>
-        <span>Identity</span>
-      </li>
-      <li (click)="selectType('note')" [class.active]="selectedType==='note'">
-        <i class="far fa-sticky-note"></i>
-        <span>Note</span>
-      </li>
-      <li (click)="selectType('ssh')" [class.active]="selectedType==='ssh'">
-        <i class="far fa-key"></i>
-        <span>SSH Key</span>
-      </li>
-    </ul>
-
-    <h5 class="blue">Folders</h5>
-    <ul>
-      <li (click)="selectFolder('none')" [class.active]="selectedFolder==='none'">
-        <i class="far fa-folder-open"></i>
-        <span>No Folder</span>
-      </li>
-      <li (click)="selectFolder('trash')" [class.active]="selectedFolder==='trash'">
-        <i class="far fa-trash-alt"></i>
-        <span>Trash</span>
-      </li>
-    </ul>
-  </aside>
-
-
-  <!-- Vaults content -->
 <main class="vaults-content">
   <div class="vaults-header">
     <h3>All Vaults</h3>
-    <button class="btn-new" >+ New</button>
+    <!-- Bouton + New reste choix type -->
+    <button class="btn-new" (click)="openTypeSelector()">+ New</button>
+  </div>
+
+  <!-- Popup choix du type -->
+  <div class="overlay" *ngIf="showTypeSelector">
+    <div class="type-selector">
+      <h4>Choisir un type d'élément</h4>
+      <ul>
+        <li *ngFor="let t of vaultTypes" (click)="selectVaultType(t.key)">
+          {{ t.label }}
+        </li>
+      </ul>
+      <button class="btn-cancel" (click)="showTypeSelector=false">Annuler</button>
+    </div>
+  </div>
+
+  <!-- Formulaire dynamique selon type -->
+<div class="overlay" *ngIf="showAddForm && currentVaultType">
+  <div class="form-container">
+    <h4>Ajouter un {{ currentVaultType | titlecase }}</h4>
+    <form>
+      <!-- Login -->
+      <div *ngIf="currentVaultType==='login'" class="form-section">
+        <label>Nom de l'identifiant</label>
+        <input [(ngModel)]="newVaultName" name="name" placeholder="Ex: Mon Email" />
+
+        <label>Nom d'utilisateur</label>
+        <input [(ngModel)]="newVaultUsername" name="username" placeholder="Ex: mon.utilisateur" />
+
+        <label>Mot de passe</label>
+        <input [(ngModel)]="newVaultPassword" name="password" type="password" placeholder="••••••••" />
+      </div>
+
+      <!-- Payment Card -->
+      <div *ngIf="currentVaultType==='card'" class="form-section">
+        <label>Numéro de carte</label>
+        <input [(ngModel)]="newVaultCardNumber" name="cardnum" placeholder="1234 5678 9012 3456" />
+
+        <label>Date d'expiration</label>
+        <input [(ngModel)]="newVaultCardExpiry" name="expiry" placeholder="MM/AA" />
+
+        <label>CVV</label>
+        <input [(ngModel)]="newVaultCardCVV" name="cvv" placeholder="123" />
+      </div>
+
+      <!-- Note -->
+      <div *ngIf="currentVaultType==='note'" class="form-section">
+        <label>Note sécurisée</label>
+        <textarea [(ngModel)]="newVaultNote" name="note" placeholder="Tapez votre note ici..."></textarea>
+      </div>
+
+      <!-- Identity -->
+      <div *ngIf="currentVaultType==='identity'" class="form-section">
+        <label>Identité</label>
+        <input [(ngModel)]="newVaultIdentity" name="identity" placeholder="Ex: John Doe" />
+      </div>
+
+      <!-- SSH Key -->
+      <div *ngIf="currentVaultType==='ssh'" class="form-section">
+        <label>Clé d'authentification</label>
+        <input [(ngModel)]="newVaultSSHKey" name="sshKey" placeholder="Copiez votre clé SSH ici" />
+      </div>
+
+      <!-- Boutons -->
+      <div class="form-actions">
+        <button type="button" class="btn-save" (click)="saveVaultByType(); resetForm()">Enregistrer</button>
+        <button type="button" class="btn-cancel" (click)="closeForm(); resetForm()">Fermer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <!-- Formulaire général pour + New Item -->
+  <div class="overlay" *ngIf="showAddForm && !currentVaultType">
+    <div class="form-container">
+      <h4>Nouveau Identifiant</h4>
+      <p>Gagnez du temps avec le remplissage automatique.</p>
+      <form>
+        <label>Nom de l’élément (requis)</label>
+        <input [(ngModel)]="newVaultName" name="name" />
+
+        <label>Propriétaire (email)</label>
+        <input [(ngModel)]="newVaultOwner" name="owner" />
+
+        <label>Dossier</label>
+        <input [(ngModel)]="newVaultFolder" name="folder" />
+
+        <label>Nom d'utilisateur</label>
+        <input [(ngModel)]="newVaultUsername" name="username" />
+
+        <label>Mot de passe</label>
+        <input [(ngModel)]="newVaultPassword" type="password" name="password" />
+
+        <label>Clé d'authentification</label>
+        <input [(ngModel)]="newVaultSSHKey" name="sshKey" />
+
+        <label>Site web (URI)</label>
+        <input type="text" name="website" />
+
+        <label>Notes</label>
+        <textarea [(ngModel)]="newVaultNote" name="note"></textarea>
+
+        <div style="margin-top:10px;">
+          <button type="button" class="btn-save"
+                  (click)="addVault(newVaultName,'login',newVaultFolder,newVaultOwner,'My Vault')">
+            Enregistrer
+          </button>
+          <button type="button" class="btn-cancel" (click)="closeForm()">Annuler</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <table class="vaults-table">
-  <thead>
-    <tr>
-      <th>
-        <input type="checkbox" [checked]="allSelected" (change)="toggleAll($event)" />
-      </th>
-      <th>Name</th>
-      <th>Owner</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let vault of filteredVaults()">
-      <td>
-        <input type="checkbox" [(ngModel)]="vault.selected" (change)="checkIfAllSelected()" />
-      </td>
-      <td>{{ vault.name }}</td>
-      <td>{{ vault.owner }}</td>
-    </tr>
-    <tr *ngIf="filteredVaults().length === 0">
-      <td colspan="3" class="empty">
-        <div class="empty-state">
-          <p>No items to display.</p>
-          <button class="btn-new" (click)="goToNewOrganization()">+ New Item</button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+    <thead>
+      <tr>
+        <th><input type="checkbox" [checked]="allSelected" (change)="toggleAll($event)" /></th>
+        <th>Name</th>
+        <th>Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vault of filteredVaults()">
+        <td><input type="checkbox" [(ngModel)]="vault.selected" (change)="checkIfAllSelected()" /></td>
+        <td>{{ vault.name }}</td>
+        <td>{{ vault.owner }}</td>
+      </tr>
+      <tr *ngIf="filteredVaults().length === 0">
+        <td colspan="3" class="empty">
+          <div class="empty-state">
+            <p>No items to display.</p>
+            <!-- Bouton + New Item ouvre le formulaire général -->
+            <button class="btn-new" (click)="openAddForm()">+ New Item</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </main>
+
+
 </div>

@@ -46,8 +46,9 @@
     <!-- Topbar -->
     <header class="topbar">
   <div class="topbar-left">
-    <span class="page-title">{{ pageTitle }}</span>
-  </div>
+  <h3>{{ pageTitle }} <span *ngIf="currentOrgName">- {{ currentOrgName }}</span></h3>
+</div>
+
 
 <!-- Photo de profil + bouton logout -->
   <div class="user-info">

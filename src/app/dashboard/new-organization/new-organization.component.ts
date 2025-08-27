@@ -31,42 +31,24 @@ export class NewOrganizationComponent {
   countryTouched: boolean = false;
   postalCodeTouched: boolean = false; // facultatif
 
-  onSubmit() {
+onSubmit() {
   this.orgNameTouched = true;
   this.billingEmailTouched = true;
   this.planTouched = true;
-  this.extraStorageTouched = true;
-  this.cardNumberTouched = true;
-  this.cardExpirationTouched = true;
-  this.cardCvvTouched = true;
-  this.countryTouched = true;
-  this.postalCodeTouched = true;
 
-  if (!this.orgName || !this.billingEmail || !this.plan) {
-    return; // formulaire invalide
+  if (!this.orgName || !this.billingEmail || !this.plan) return;
+
+  const confirmed = confirm('✅ Organization successfully created!\n\nClick OK to go to your Vaults.');
+  if (confirmed) {
+    this.router.navigate(['/dashboard/vaults'], {
+      state: { 
+        newOrg: this.orgName
+      }
+    });
   }
-
-  // Naviguer vers Vaults avec l'orgName et collection par défaut
-  this.router.navigate(['/dashboard/vaults'], {
-    state: { 
-      newOrg: this.orgName,
-      collections: ['Default collection']   // <-- Ajout collection par défaut
-    }
-  });
-
-  console.log('Organization submitted:', {
-    orgName: this.orgName,
-    billingEmail: this.billingEmail,
-    plan: this.plan,
-    extraStorage: this.extraStorage,
-    cardNumber: this.cardNumber,
-    cardExpiration: this.cardExpiration,
-    cardCvv: this.cardCvv,
-    country: this.country,
-    postalCode: this.postalCode
-  });
-
-  alert('Organization successfully created!');
 }
 
 }
+
+
+
