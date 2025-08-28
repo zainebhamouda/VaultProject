@@ -21,6 +21,12 @@ export class DashboardStatiqueComponent implements OnInit {
     { date: '2025-08-19', user: 'Ali', action: 'Deleted item' },
     { date: '2025-08-18', user: 'Sara', action: 'Updated password' },
   ];
+  itemHistory = [
+  { createdAt: '2025-08-21', orgName: 'Finance Org', itemTitle: 'MasterCard', userName: 'Ali', actionType: 'Created' },
+  { createdAt: '2025-08-20', orgName: 'DevOps Org', itemTitle: 'SSH Key', userName: 'Sara', actionType: 'Updated' },
+  { createdAt: '2025-08-19', orgName: 'Marketing Org', itemTitle: 'Gmail Login', userName: 'Zaineb', actionType: 'Deleted' }
+];
+
 
   private storageChart?: Chart;
   private itemsChart?: Chart;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component ,HostListener, ViewChild, ElementRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,6 +20,7 @@ interface Vault {
   styleUrls: ['./vaults.component.css']
 })
 export class VaultsComponent {
+  
   // ---- État global ----
   searchText = '';
   selectedVault = 'all';
@@ -84,7 +85,15 @@ export class VaultsComponent {
     this.selectedVault = 'newOrg';
     this.router.navigate(['/dashboard/new-organization']);
   }
+  passwordVisible = false;
 
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
+    const passwordInput = document.querySelector('input[name="password"]') as HTMLInputElement;
+    if (passwordInput) {
+      passwordInput.type = this.passwordVisible ? 'text' : 'password';
+    }
+  }
   // ---- Gestion vaults ----
   addVault(
     name: string,
@@ -103,19 +112,25 @@ export class VaultsComponent {
 
     this.resetForm();
   }
-
+  // Add this property to control dropdown visibility
+  showDropdown: boolean = false;
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.new-item-dropdown')) {
+      this.showDropdown = false;
+    }
+  }
   // ---- Sélection type et formulaire ----
-  openTypeSelector() {
-    this.showTypeSelector = true;
-    this.showAddForm = false;
-  }
+  toggleDropdown(): void {
+  this.showDropdown = !this.showDropdown;
+ }
 
-  selectVaultType(type: string) {
-    this.currentVaultType = type;
-    this.showTypeSelector = false;
-    this.showAddForm = true;
+  selectVaultType(type: string): void {
+  this.currentVaultType = type;
+  this.showDropdown = false; // Close the dropdown
+  this.showAddForm = true;
   }
-
   closeForm() {
     this.showAddForm = false;
     this.currentVaultType = null;
@@ -169,6 +184,25 @@ export class VaultsComponent {
     this.newVaultNote = '';
     this.newVaultIdentity = '';
     this.newVaultSSHKey = '';
+    this.identityFirstName = '';
+    this.identityLastName = '';
+    this.identityEmail = '';
+    this.identityPhone = '';
+    this.identityDOB = '';
+    this.identityGender = '';
+    this.identityAddress = '';
+    this.identityCity = '';
+    this.identityZipCode = '';
+    this.identityCountry = '';
+    this.identityPassport = '';
+    this.identityLicense = '';
+    this.noteCategory = '';
+    this.noteTags = [];
+    this.notePriority = 'medium';
+    this.characterCount = 0;
+    this.wordCount = 0;
+    this.folderDescription = '';
+    this.selectedFolderColor = '#1e88e5';
   }
  
 
@@ -177,6 +211,7 @@ openAddForm() {
   this.currentVaultType = null;  // formulaire général
   this.showAddForm = true;
 }
+
 
 saveVaultByType() {
   if (!this.currentVaultType) return;
@@ -216,7 +251,266 @@ saveVaultByType() {
   this.resetForm();
   this.showAddForm = false;
 }
+cvvVisible = false;
+
+toggleCVVVisibility(): void {
+  this.cvvVisible = !this.cvvVisible;
+  const cvvInput = document.querySelector('input[name="cvv"]') as HTMLInputElement;
+  if (cvvInput) {
+    cvvInput.type = this.cvvVisible ? 'text' : 'password';
+  }
+}
+
+formatCardNumber(event: any): void {
+  let value = event.target.value.replace(/\D/g, '');
+  if (value.length > 16) {
+    value = value.slice(0, 16);
+  }
+  
+  // Add spaces every 4 digits
+  value = value.replace(/(\d{4})/g, '$1 ').trim();
+  this.newVaultCardNumber = value;
+}
+
+formatExpiryDate(event: any): void {
+  let value = event.target.value.replace(/\D/g, '');
+  if (value.length > 4) {
+    value = value.slice(0, 4);
+  }
+  
+  // Add slash after 2 digits
+  if (value.length > 2) {
+    value = value.slice(0, 2) + '/' + value.slice(2);
+  }
+  this.newVaultCardExpiry = value;
+}
+//typescript for identity form 
+identityFirstName: string = '';
+identityLastName: string = '';
+identityEmail: string = '';
+identityPhone: string = '';
+identityDOB: string = '';
+identityGender: string = '';
+identityAddress: string = '';
+identityCity: string = '';
+identityZipCode: string = '';
+identityCountry: string = '';
+identityPassport: string = '';
+identityLicense: string = '';
+// Phone number formatting
+formatPhoneNumber(event: any): void {
+  let value = event.target.value.replace(/\D/g, '');
+  
+  if (value.length > 10) {
+    value = value.slice(0, 10);
+  }
+  
+  // Format as (555) 123-4567
+  if (value.length > 6) {
+    value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6)}`;
+  } else if (value.length > 3) {
+    value = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+  } else if (value.length > 0) {
+    value = `(${value}`;
+  }
+  
+  this.identityPhone = value;
+}
+
+// Save identity method
+saveIdentity(): void {
+  // Combine first and last name for the vault name if not provided
+  if (!this.newVaultName && (this.identityFirstName || this.identityLastName)) {
+    this.newVaultName = `${this.identityFirstName} ${this.identityLastName}`.trim();
+  }
+  
+  this.addVault(
+    this.newVaultName,
+    'identity',
+    this.newVaultFolder,
+    this.identityEmail || this.newVaultOwner,
+    'My Vault'
+  );
+}
+//typescript for note form 
+// Add to your component class - Note Properties
+noteCategory: string = '';
+noteTags: string[] = [];
+notePriority: string = 'medium';
+characterCount: number = 0;
+wordCount: number = 0;
+
+// ViewChild for textarea access - FIXED
+@ViewChild('noteTextarea', { static: false }) noteTextarea!: ElementRef;
+
+// Character and word count
+updateCharacterCount(): void {
+  this.characterCount = this.newVaultNote.length;
+  this.wordCount = this.newVaultNote.trim() ? this.newVaultNote.trim().split(/\s+/).length : 0;
+}
+
+// Text formatting - FIXED
+formatText(format: string): void {
+  if (!this.noteTextarea) return;
+  
+  const textarea = this.noteTextarea.nativeElement;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = this.newVaultNote.substring(start, end);
+  
+  let formattedText = '';
+  let wrapStart = '';
+  let wrapEnd = '';
+  
+  switch (format) {
+    case 'bold':
+      wrapStart = '**';
+      wrapEnd = '**';
+      break;
+    case 'italic':
+      wrapStart = '_';
+      wrapEnd = '_';
+      break;
+    case 'underline':
+      wrapStart = '__';
+      wrapEnd = '__';
+      break;
+    case 'ul':
+      formattedText = selectedText.split('\n').map(line => `- ${line}`).join('\n');
+      break;
+    case 'ol':
+      formattedText = selectedText.split('\n').map((line, index) => `${index + 1}. ${line}`).join('\n');
+      break;
+  }
+  
+  if (format === 'ul' || format === 'ol') {
+    this.newVaultNote = this.newVaultNote.substring(0, start) + formattedText + this.newVaultNote.substring(end);
+    const newPosition = start + formattedText.length;
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(newPosition, newPosition);
+    });
+  } else {
+    this.newVaultNote = this.newVaultNote.substring(0, start) + wrapStart + selectedText + wrapEnd + this.newVaultNote.substring(end);
+    const newPosition = start + wrapStart.length + selectedText.length + wrapEnd.length;
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(newPosition, newPosition);
+    });
+  }
+  
+  this.updateCharacterCount();
+}
+
+// Insert current date/time
+insertCurrentDateTime(): void {
+  if (!this.noteTextarea) return;
+  
+  const now = new Date();
+  const dateTime = now.toLocaleString();
+  const textarea = this.noteTextarea.nativeElement;
+  const start = textarea.selectionStart;
+  
+  this.newVaultNote = this.newVaultNote.substring(0, start) + dateTime + this.newVaultNote.substring(start);
+  
+  setTimeout(() => {
+    textarea.focus();
+    textarea.setSelectionRange(start + dateTime.length, start + dateTime.length);
+  });
+  
+  this.updateCharacterCount();
+}
+
+// Tags management
+addTag(input: HTMLInputElement): void {
+  const tag = input.value.trim();
+  if (tag && !this.noteTags.includes(tag)) {
+    this.noteTags.push(tag);
+  }
+  input.value = '';
+  input.focus();
+}
+
+removeTag(index: number): void {
+  this.noteTags.splice(index, 1);
+}
+
+handleBackspace(input: HTMLInputElement): void {
+  if (input.value === '' && this.noteTags.length > 0) {
+    this.noteTags.pop();
+  }
+}
+
+// Note preview with basic formatting - FIXED
+getNotePreview(): string {
+  let preview = this.newVaultNote;
+  
+  // Basic Markdown-like formatting - FIXED the string replacement syntax
+  preview = preview.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  preview = preview.replace(/_(.*?)_/g, '<em>$1</em>');
+  preview = preview.replace(/__(.*?)__/g, '<u>$1</u>');
+  preview = preview.replace(/^- (.*)$/gm, '• $1');
+  preview = preview.replace(/^\d+\. (.*)$/gm, '$1');
+  
+  // Preserve line breaks
+  preview = preview.replace(/\n/g, '<br>');
+  
+  return preview;
+}
 
 
+
+
+// Add to your component class - Folder Properties
+folderDescription: string = '';
+selectedFolderColor: string = '#1e88e5'; // Default blue
+folderColors: string[] = [
+  '#1e88e5', // Blue
+  '#43a047', // Green
+  '#fbc02d', // Yellow
+  '#ff7043', // Orange
+  '#e53935', // Red
+  '#9c27b0', // Purple
+  '#00acc1', // Teal
+  '#795548'  // Brown
+];
+
+// Update folder name validation
+updateFolderName(): void {
+  if (this.newVaultName.length > 50) {
+    this.newVaultName = this.newVaultName.slice(0, 50);
+  }
+}
+
+// Select folder color
+selectFolderColor(color: string): void {
+  this.selectedFolderColor = color;
+}
+
+// Save folder method
+saveFolder(): void {
+  if (!this.newVaultName.trim()) return;
+  
+  // Here you would typically save the folder to your backend
+  // For now, we'll just add it to the folders list
+  const folderName = this.newVaultName.trim();
+  
+  if (!this.folders.includes(folderName)) {
+    this.folders.push(folderName);
+  }
+  
+  // Create a vault entry for the folder
+  this.addVault(
+    folderName,
+    'folder',
+    'None', // Folders don't belong to other folders
+    this.newVaultOwner,
+    'My Vault'
+  );
+  
+  // Reset and close form
+  this.resetForm();
+  this.closeForm();
+}
 
 }

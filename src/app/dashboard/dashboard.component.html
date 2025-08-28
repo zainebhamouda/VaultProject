@@ -17,12 +17,14 @@
           <span>Profile</span>
         </a>
       </li>
+
       <li> 
-      <a routerLink="/dashboard/statique" routerLinkActive="active-link">
-        <i class="fa-solid fa-chart-line"></i>
-        <span>Dashboard</span>
-      </a>
-    </li>
+        <a routerLink="/dashboard/statique" routerLinkActive="active-link">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
       <li>
         <a routerLink="vaults" routerLinkActive="active-link">
           <i class="fas fa-lock"></i>
@@ -32,13 +34,13 @@
      
     </ul>
 
-    <!-- Bouton pour réduire/agrandir la sidebar -->
-<div class="sidebar-toggle" (click)="toggleSidebar()">
-  <span class="toggle-icon">{{ sidebarCollapsed ? '>' : '<' }}</span>
-</div>
+  <!-- Bouton pour réduire/agrandir la sidebar -->
+  <div class="sidebar-toggle" (click)="toggleSidebar()">
+    <span class="toggle-icon">{{ sidebarCollapsed ? '>' : '<' }}</span>
+  </div>
 
   </nav>
-</aside>
+  </aside>
 
 
   <!-- Main Content -->
@@ -60,7 +62,7 @@
         <span>👤</span>
       </ng-template>
     </div>
-    <button class="logout-btn">Logout</button>
+    <button class="logout-btn" (click)="logout()">Logout</button>
   </div>
 </header>
 
