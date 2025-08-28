@@ -276,4 +276,35 @@
                 font-size: 1rem;
             }
         }
-    
+    /* === MAIN SUR TOUTE LA PAGE === */
+.main-container {
+    min-height: 100vh; 
+    position: relative; 
+}
+
+/* === SCROLL DOWN BUTTON === */
+.scroll-down {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    color: #136dcd;
+    cursor: pointer;
+    animation: bounce 1.5s infinite;
+}
+
+/* Animation du bouton */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+    40% { transform: translate(-50%, -12px); }
+    60% { transform: translate(-50%, -6px); }
+}
+.text-gradient {
+  background: linear-gradient(to right, #136dcd, #00c6ff);
+  -webkit-background-clip: text; 
+  background-clip: text;        
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+

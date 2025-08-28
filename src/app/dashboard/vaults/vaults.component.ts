@@ -30,7 +30,12 @@ export class VaultsComponent {
   showTypeSelector = false;   // popup choix type
   showAddForm = false;        // formulaire affiché
   currentVaultType: string | null = null;
-
+  userEmail: string = 'zaineb.hamouda09@gmail.com';  // ton email principal
+  organizationMembers: { email: string }[] = [
+    { email: 'member1@org.com' },
+    { email: 'member2@org.com' }
+    // ajouter tous les membres des organisations
+  ];
   // ---- Liste des types disponibles ----
   vaultTypes = [
     { key: 'login', label: 'Identifiant' },
@@ -160,7 +165,7 @@ export class VaultsComponent {
   public resetForm() {
     this.newVaultName = '';
     this.newVaultFolder = 'Aucun dossier';
-    this.newVaultOwner = 'zaineb.hamouda09@gmail.com';
+    this.newVaultOwner = '';
     this.newVaultUsername = '';
     this.newVaultPassword = '';
     this.newVaultCardNumber = '';

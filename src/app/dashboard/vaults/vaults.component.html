@@ -86,108 +86,120 @@
   </ul>
 </aside>
 
-
 <main class="vaults-content">
   <div class="vaults-header">
     <h3>All Vaults</h3>
-    <!-- Bouton + New reste choix type -->
+    <!-- + New button keeps type choice -->
     <button class="btn-new" (click)="openTypeSelector()">+ New</button>
   </div>
 
-  <!-- Popup choix du type -->
+  <!-- Type selection popup -->
   <div class="overlay" *ngIf="showTypeSelector">
     <div class="type-selector">
-      <h4>Choisir un type d'élément</h4>
+      <h4>Select an item type</h4>
       <ul>
         <li *ngFor="let t of vaultTypes" (click)="selectVaultType(t.key)">
           {{ t.label }}
         </li>
       </ul>
-      <button class="btn-cancel" (click)="showTypeSelector=false">Annuler</button>
+      <button class="btn-cancel" (click)="showTypeSelector=false">Cancel</button>
     </div>
   </div>
 
-  <!-- Formulaire dynamique selon type -->
-<div class="overlay" *ngIf="showAddForm && currentVaultType">
-  <div class="form-container">
-    <h4>Ajouter un {{ currentVaultType | titlecase }}</h4>
-    <form>
-      <!-- Login -->
-      <div *ngIf="currentVaultType==='login'" class="form-section">
-        <label>Nom de l'identifiant</label>
-        <input [(ngModel)]="newVaultName" name="name" placeholder="Ex: Mon Email" />
+  <!-- Dynamic form by type -->
+  <div class="overlay" *ngIf="showAddForm && currentVaultType">
+    <div class="form-container">
+      <h4>Add a {{ currentVaultType | titlecase }}</h4>
+      <form>
+        <!-- Login -->
+        <div *ngIf="currentVaultType==='login'" class="form-section">
+          <label>Login Name</label>
+          <input [(ngModel)]="newVaultName" name="name" placeholder="Ex: My Email" />
 
-        <label>Nom d'utilisateur</label>
-        <input [(ngModel)]="newVaultUsername" name="username" placeholder="Ex: mon.utilisateur" />
+          <label>Username</label>
+          <input [(ngModel)]="newVaultUsername" name="username" placeholder="Ex: my.username" />
 
-        <label>Mot de passe</label>
-        <input [(ngModel)]="newVaultPassword" name="password" type="password" placeholder="••••••••" />
-      </div>
+          <label>Password</label>
+          <input [(ngModel)]="newVaultPassword" name="password" type="password" placeholder="••••••••" />
+        </div>
 
-      <!-- Payment Card -->
-      <div *ngIf="currentVaultType==='card'" class="form-section">
-        <label>Numéro de carte</label>
-        <input [(ngModel)]="newVaultCardNumber" name="cardnum" placeholder="1234 5678 9012 3456" />
+        <!-- Payment Card -->
+        <div *ngIf="currentVaultType==='card'" class="form-section">
+          <label>Card Number</label>
+          <input [(ngModel)]="newVaultCardNumber" name="cardnum" placeholder="1234 5678 9012 3456" />
 
-        <label>Date d'expiration</label>
-        <input [(ngModel)]="newVaultCardExpiry" name="expiry" placeholder="MM/AA" />
+          <label>Expiry Date</label>
+          <input [(ngModel)]="newVaultCardExpiry" name="expiry" placeholder="MM/YY" />
 
-        <label>CVV</label>
-        <input [(ngModel)]="newVaultCardCVV" name="cvv" placeholder="123" />
-      </div>
+          <label>CVV</label>
+          <input [(ngModel)]="newVaultCardCVV" name="cvv" placeholder="123" />
+        </div>
 
-      <!-- Note -->
-      <div *ngIf="currentVaultType==='note'" class="form-section">
-        <label>Note sécurisée</label>
-        <textarea [(ngModel)]="newVaultNote" name="note" placeholder="Tapez votre note ici..."></textarea>
-      </div>
+        <!-- Note -->
+        <div *ngIf="currentVaultType==='note'" class="form-section">
+          <label>Secure Note</label>
+          <textarea [(ngModel)]="newVaultNote" name="note" placeholder="Type your note here..."></textarea>
+        </div>
 
-      <!-- Identity -->
-      <div *ngIf="currentVaultType==='identity'" class="form-section">
-        <label>Identité</label>
-        <input [(ngModel)]="newVaultIdentity" name="identity" placeholder="Ex: John Doe" />
-      </div>
+        <!-- Identity -->
+        <div *ngIf="currentVaultType==='identity'" class="form-section">
+          <label>Identity</label>
+          <input [(ngModel)]="newVaultIdentity" name="identity" placeholder="Ex: John Doe" />
+        </div>
 
-      <!-- SSH Key -->
-      <div *ngIf="currentVaultType==='ssh'" class="form-section">
-        <label>Clé d'authentification</label>
-        <input [(ngModel)]="newVaultSSHKey" name="sshKey" placeholder="Copiez votre clé SSH ici" />
-      </div>
+        <!-- SSH Key -->
+        <div *ngIf="currentVaultType==='ssh'" class="form-section">
+          <label>SSH Key</label>
+          <input [(ngModel)]="newVaultSSHKey" name="sshKey" placeholder="Paste your SSH key here" />
+        </div>
 
-      <!-- Boutons -->
-      <div class="form-actions">
-        <button type="button" class="btn-save" (click)="saveVaultByType(); resetForm()">Enregistrer</button>
-        <button type="button" class="btn-cancel" (click)="closeForm(); resetForm()">Fermer</button>
-      </div>
-    </form>
+        <!-- Buttons -->
+        <div class="form-actions">
+          <button type="button" class="btn-save" (click)="saveVaultByType(); resetForm()">Save</button>
+          <button type="button" class="btn-cancel" (click)="closeForm(); resetForm()">Close</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 
-  <!-- Formulaire général pour + New Item -->
+  <!-- General form for + New Item -->
   <div class="overlay" *ngIf="showAddForm && !currentVaultType">
     <div class="form-container">
-      <h4>Nouveau Identifiant</h4>
-      <p>Gagnez du temps avec le remplissage automatique.</p>
+      <h4>New Login</h4>
+     <!-- 🔹 Blue info box -->
+    <div style="border: 1.58px solid #007BFF; background-color: #E6F0FF; color: #1b1c1c; padding: 10px; border-radius: 15px; margin-bottom: 10px;background: #d8e2ed;">
+      <h5 style="color: #1b1c1c;">Save time with autofill.</h5>
+      Include a website so that this login appears as an autofill suggestion.
+    </div>
       <form>
-        <label>Nom de l’élément (requis)</label>
+        <label>Item Name (required)</label>
         <input [(ngModel)]="newVaultName" name="name" />
 
-        <label>Propriétaire (email)</label>
-        <input [(ngModel)]="newVaultOwner" name="owner" />
+        <label>Owner</label>
+<select [(ngModel)]="newVaultOwner" name="owner">
+  <!-- Email principal -->
+  <option [value]="userEmail">{{ userEmail }}</option>
 
-        <label>Dossier</label>
+  <!-- Emails des organisations/membres -->
+  <option *ngFor="let member of organizationMembers" [value]="member.email">
+    {{ member.email }}
+  </option>
+</select>
+
+
+        <label>Folder</label>
         <input [(ngModel)]="newVaultFolder" name="folder" />
 
-        <label>Nom d'utilisateur</label>
+        <label>Username</label>
         <input [(ngModel)]="newVaultUsername" name="username" />
 
-        <label>Mot de passe</label>
+        <label>Password</label>
         <input [(ngModel)]="newVaultPassword" type="password" name="password" />
 
-        <label>Clé d'authentification</label>
+        <label>SSH Key</label>
         <input [(ngModel)]="newVaultSSHKey" name="sshKey" />
 
-        <label>Site web (URI)</label>
+        <label>Website (URI)</label>
         <input type="text" name="website" />
 
         <label>Notes</label>
@@ -196,9 +208,9 @@
         <div style="margin-top:10px;">
           <button type="button" class="btn-save"
                   (click)="addVault(newVaultName,'login',newVaultFolder,newVaultOwner,'My Vault')">
-            Enregistrer
+            Save
           </button>
-          <button type="button" class="btn-cancel" (click)="closeForm()">Annuler</button>
+          <button type="button" class="btn-cancel" (click)="closeForm()">Cancel</button>
         </div>
       </form>
     </div>
@@ -222,7 +234,7 @@
         <td colspan="3" class="empty">
           <div class="empty-state">
             <p>No items to display.</p>
-            <!-- Bouton + New Item ouvre le formulaire général -->
+            <!-- + New Item button opens general form -->
             <button class="btn-new" (click)="openAddForm()">+ New Item</button>
           </div>
         </td>

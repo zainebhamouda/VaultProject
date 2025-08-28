@@ -262,7 +262,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6); /* plus sombre pour effet pro */
+  background: rgba(0, 0, 0, 0.3); /* plus sombre pour effet pro */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -290,7 +290,7 @@
 /* Titre du formulaire */
 .form-container h4 {
   margin: 0 0 16px 0;
-  font-size: 22px;
+  font-size: 23px;
   font-weight: 700;
   color: #0066cc;
   text-align: center;
@@ -322,14 +322,14 @@
   border: 1.55px solid #7c7b7b;
   border-radius: 8px;
   font-size: 15px;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: border-color 0.5s, box-shadow 0.3s;
 }
 
 .form-container input:focus,
 .form-container textarea:focus {
   outline: none;
   border-color: #046bd2;
-  box-shadow: 0 0 8px rgba(0, 102, 204, 0.3);
+  box-shadow: 0 0 10px rgba(0, 102, 204, 0.3);
 }
 
 /* Textarea plus grande */
@@ -342,7 +342,7 @@
 .form-container .btn-save,
 .form-container .btn-cancel {
   margin-top: 16px;
-  padding: 12px 20px;
+  padding: 12px 25px;
   border-radius: 22px;
   font-size: 15px;
   font-weight: 600;
@@ -425,7 +425,7 @@
   font-size: 14px;
   color: #333;
   transition: background 0.2s, color 0.2s;
-  text-align: center;
+
   border: 1px solid #e0e0e0;
 }
 
@@ -440,18 +440,18 @@
 .type-selector .btn-cancel {
   margin-top: 12px;
   padding: 10px 16px;
-  border-radius: 6px;
+  border-radius: 25px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   border: none;
-  background-color: #f0f0f0;
+  background-color: #c2cde2;
   color: #333;
   transition: background 0.3s;
 }
 
 .type-selector .btn-cancel:hover {
-  background-color: #d9d9d9;
+  background-color: #99a5c7;
 }
 
 /* Scrollbar custom */
@@ -483,4 +483,41 @@
   padding-right: 8px;       /* espace pour scrollbar à droite */
   scrollbar-width: thin;     /* Firefox */
   scrollbar-color: #7e8a96 #f0f0f0; /* pouce / track */
+}
+
+/* Select */
+.form-container select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1.5px solid #0066cc;   /* couleur bleu Bitwarden */
+  border-radius: 6px;
+  background-color: #fff;
+  color: #000;
+  appearance: none; /* supprime le style par défaut du navigateur */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Focus */
+.form-container select:focus {
+  outline: none;
+  border-color: #004a99;
+  box-shadow: 0 0 6px rgba(0, 102, 204, 0.3);
+}
+
+/* Flèche custom pour le select */
+.form-container select {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%227%22%20viewBox%3D%220%200%2010%207%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M0%200l5%207%205-7H0z%22%20fill%3D%22%230066cc%22/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px 7px;
+  padding-right: 36px; /* laisse de la place pour la flèche */
+}
+
+/* Option hover (certain navigateurs) */
+.form-container select option:hover {
+  background-color: #f0f4ff;
 }

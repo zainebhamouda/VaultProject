@@ -1,20 +1,23 @@
-import { Component,HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  styleUrls: ['./welcome.component.css'],
+  
 })
 export class WelcomeComponent {
   featuresVisible = false;
+
   constructor(private router: Router) {}
 
-  goToLogin() {
+  goToLogin(): void {
     this.router.navigateByUrl('/login');
   }
+
   goToSignUp(): void {
     this.router.navigate(['/signup']); 
   }
-  
 }
+

@@ -24,22 +24,34 @@
         </div>
     </header>
 
-    <div class="main-container">
-        <div class="text-content">
-            <h1>Manage your passwords with confidence</h1>
-            <p>Securely organize, access, and protect all your passwords, files, and notes in one centralized place. Advanced encryption keeps your data safe from unauthorized access.</p>
-            <button class="cta-button" (click)="goToLogin()">
-                <i class="fas fa-lock"></i> Get Started Now
-            </button>
-        </div>
-
-        <div class="image-content">
-            <img src="https://static.tildacdn.one/tild6139-6362-4634-b832-343336376566/Copy_of_Untitled_Des.png" 
-                 alt="SecureVault App Illustration" class="hero-img">
-        </div>
+   
+<div class="main-container">
+    <div class="text-content">
+        <h1>Manage your passwords with confidence</h1>
+        <p>Securely organize, access, and protect all your passwords, files, 
+           and notes in one centralized place. Advanced encryption keeps your 
+           data safe from unauthorized access.</p>
+        <button class="cta-button" (click)="goToLogin()">
+            <i class="fas fa-lock"></i> Get Started Now
+        </button>
     </div>
 
-    <section class="features">
+    <div class="image-content">
+        <img src="https://static.tildacdn.one/tild6139-6362-4634-b832-343336376566/Copy_of_Untitled_Des.png" 
+             alt="SecureVault App Illustration" class="hero-img">
+    </div>
+</div>
+    <a href="#features" class="scroll-down" onclick="scrollToFeatures(event)">
+  <i class="fas fa-chevron-down"></i>
+</a>
+
+<script>
+function scrollToFeatures(e) {
+    e.preventDefault(); // empêche le saut instantané
+    document.querySelector('#features').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+    <section id="features" class="features">
         <h2>Why Choose SecureVault?</h2>
         <div class="features-grid">
             <div class="feature-card">
@@ -70,7 +82,7 @@
 
     <footer>
         <div class="footer-content">
-            <p>© 2023 SecureVault. All rights reserved.</p>
+            <p>© 2025 SecureVault. All rights reserved.</p>
             <p>Your security is our priority</p>
         </div>
     </footer>
