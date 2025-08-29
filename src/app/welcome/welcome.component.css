@@ -308,3 +308,145 @@
   color: transparent;
 }
 
+/*********** how it works & testimonials **************/
+/* --- How It Works Section --- */
+.how-it-works {
+  padding: 80px 20px;
+  background: #d3dae4;
+  text-align: center;
+  min-height: 80vh; 
+}
+
+.how-it-works h2 {
+  font-size: 2.2rem;
+  margin-bottom: 50px;
+  color: #1a2b49;
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.step {
+  background: #f4f6f7;
+  border-radius: 19px;
+  padding: 30px 28px;
+  width: 300px;
+  min-height: 250px;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.09);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.step i {
+  font-size: 40px;
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+.step h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: #1a2b49;
+}
+
+.step p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* --- Testimonials Section --- */
+.testimonials {
+  padding: 80px 20px;
+  background: #fff;
+  text-align: center;
+  min-height: 70vh; 
+}
+
+.testimonials h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #1a2b49;
+}
+
+.testimonial-cards {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.testimonial {
+  background: #e4e6e8;
+  border-radius: 14px;
+  padding: 25px 20px;
+  width: 300px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-style: italic;
+  transition: transform 0.3s ease;
+}
+
+.testimonial:hover {
+  transform: scale(1.05);
+}
+
+.testimonial p {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.testimonial span {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #000000;
+}
+
+/* --- Final Call to Action Section --- */
+.final-cta {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #d2b4e4, #549deb);
+  text-align: center;
+  color: #fff;
+}
+
+.final-cta h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+
+/* --- Footer --- */
+footer {
+  background: #1a2b49;
+  color: #fff;
+  text-align: center;
+  padding: 25px 15px;
+}
+
+.footer-content p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .steps, .testimonial-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step, .testimonial {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+

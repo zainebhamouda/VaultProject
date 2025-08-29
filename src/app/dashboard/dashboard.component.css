@@ -8,6 +8,7 @@
 
 /* Sidebar - Bleu Bitwarden */
 .sidebar {
+  position: relative;
   width: 250px;
   background-color: rgb(22,55,146,1); /* bleu Bitwarden */
   color: #ffffff;
@@ -35,12 +36,13 @@
 .sidebar-logo span {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ffffff; /* texte blanc */
+  color: #ffffff;
 }
 
-/* Sidebar links */
+/* Sidebar links (final merged version) */
 .sidebar-nav {
   padding: 0 20px;
+  flex-grow: 1;
 }
 
 .sidebar-nav ul {
@@ -50,25 +52,40 @@
 }
 
 .sidebar-nav ul li {
-  margin-bottom: 12px;
+  margin-bottom: 5px;
 }
 
 .sidebar-nav ul li a {
   text-decoration: none;
-  color: #ffffff; /* texte blanc */
-  font-weight: 500;
+  color: #ffffff;
+  font-weight: 700;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   align-items: center;
-  padding: 10px 12px;
+  gap: 12px;
+  padding: 12px 3px; /* Ajusté */
   border-radius: 8px;
-  transition: background 0.3s;
-  font-size: 0.95rem;
+  transition: background 0.3s, transform 0.2s;
+  font-size: 1rem;
+}
+
+.sidebar-nav ul li a i {
+  font-size: 1.2rem;
+  color: #ffffff;
+  width: 20px;
+  text-align: center;
+  margin-left: 3px;
+}
+
+.sidebar-nav ul li a span {
+  flex-grow: 1;
 }
 
 .sidebar-nav ul li a:hover,
 .sidebar-nav ul li a.active-link {
-  background-color: #1a65e0; /* bleu plus foncé au hover */
+  background-color: #102449; /* corrigé */
   color: #ffffff;
+  transform: translateX(3px);
 }
 
 /* Main content */
@@ -77,28 +94,27 @@
   display: flex;
   flex-direction: column;
   background-color: #f5f6fa;
-  min-height: 100vh;       /* au lieu de height:100vh */
+  min-height: 100vh;
   padding: 0;
   margin: 0;
   width: 100%;
-  overflow-y: auto;        /* permet le scroll vertical si le contenu dépasse */
+  overflow-y: auto;
   box-sizing: border-box;
 }
 
-/* section contenant le router-outlet */
 .main-content .content {
-  flex: 1 0 auto;          /* grandit avec le contenu */
+  flex: 1 0 auto;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Topbar */
+/* Topbar (final version) */
 .topbar {
-  height: 90px;
-  background-color: #ffffff;
+  height: 70px;
+  background-color: #fff;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* titre à gauche, user-info à droite */
+  justify-content: space-between;
   padding: 0 30px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   border-bottom: 1px solid #e0e0e0;
@@ -110,11 +126,10 @@
   color: #1e1e2f;
 }
 
-
 .user-info {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 }
 
 .username {
@@ -123,32 +138,51 @@
   font-size: 0.95rem;
 }
 
+.topbar-profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.topbar-profile-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 /* Bouton logout */
 .logout-btn {
   padding: 8px 16px;
-  background-color: #2575fc; /* bleu Bitwarden */
-  color: #ffffff; /* texte blanc */
+  background-color: #2575fc;
+  color: #ffffff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
   font-size: 0.9rem;
   transition: background 0.3s;
-  
 }
 
 .logout-btn:hover {
-  background-color: #1a65e0; /* bleu plus foncé */
+  background-color: #1a65e0;
 }
 
 /* Dashboard content */
 .content {
-  display: flex;        /* flex pour occuper toute la largeur */
+  display: flex;
   flex-direction: column;
-  padding: 0;           /* supprime padding du grid */
+  padding: 0;
   gap: 0;
 }
-
 
 /* Carte stylisée */
 .card {
@@ -180,8 +214,8 @@
 /* Boutons d'action */
 .action-btn {
   padding: 8px 16px;
-  background-color: #193668; /* bleu Bitwarden */
-  color: #ffffff; /* texte blanc */
+  background-color: #193668;
+  color: #ffffff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -192,136 +226,22 @@
 }
 
 .action-btn:hover {
-  background-color: #1a65e0; /* bleu plus foncé */
+  background-color: #1a65e0;
 }
 
-
-
-/* Sidebar links avec icône */
-.sidebar-nav ul li a {
-  text-decoration: none;
-  color: #ffffff; /* texte blanc */
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 10px; /* espace entre icône et texte */
-  padding: 10px 16px;  /* <-- augmenté le padding gauche */
-  border-radius: 8px;
-  transition: background 0.3s;
-  font-size: 0.95rem;
-}
-.sidebar-nav ul li a i {
-  margin-left:3px; /* décale uniquement l’icône */
-}
-
-.sidebar-nav ul li a:hover,
-.sidebar-nav ul li a.active-link {
-  background-color: #13284b; /* bleu foncé au hover */
-  color: #ffffff;
-}
-
-.sidebar-nav ul li a i {
-  font-size: 1.1rem;
-  color: #ffffff; /* icône blanche */
-}
-.sidebar-nav ul li a i {
-  color: #ffffff;
-}
-
-
-
-/* Sidebar links avec icônes */
-.sidebar-nav ul li a {
-  text-decoration: none;
-  color: #ffffff;           /* texte blanc */
-  font-weight: 700;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Type d’écriture */
-  display: flex;
-  align-items: center;
-  gap: 12px;                /* espace entre icône et texte */
-  padding: 12px 16px;       /* plus d’espace comme Bitwarden */
-  border-radius: 8px;       /* coins arrondis */
-  transition: background 0.3s, transform 0.2s;
-  font-size: 1rem;
-}
-
-/* Icônes */
-.sidebar-nav ul li a i {
-  font-size: 1.2rem;
-  color: #ffffff;           /* icône blanche */
-  width: 20px;
-  text-align: center;
-}
-
-/* Hover et actif */
-.sidebar-nav ul li a:hover,
-.sidebar-nav ul li a.active-link {
-  background-color: 173b7c; /* gris clair au hover */
-  color: #ffffff;
-  transform: translateX(3px); /* petit effet de mouvement à droite */
-}
-
-/* Ajustement pour icônes et texte alignés comme Bitwarden */
-.sidebar-nav ul li a span {
-  flex-grow: 1;
-}
-.sidebar-nav ul li {
-  margin-bottom: 5px; /* auparavant 12px */
-}
-.sidebar-nav ul li a {
-  padding: 12px 3px; /* auparavant 12px 16px */
-}
-
-/* Bouton toggle sidebar */
+/* Sidebar toggle (final version) */
 .sidebar-toggle {
-  margin-top: auto;            /* pousse le bouton en bas */
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #ffffff;
-  transition: background 0.3s, transform 0.3s;
-}
-
-.sidebar-toggle:hover {
-  background-color: #1a65e0;   /* bleu plus foncé au hover */
-  border-radius: 6px;
-}
-
-/* Rotation de l'icône selon l'état */
-.sidebar-toggle i {
-  transition: transform 0.3s;
-}
-
-.sidebar-collapsed .sidebar-toggle i {
-  transform: rotate(180deg);
-}
-
-/* Sidebar réduite */
-.sidebar-collapsed {
-  width: 80px; /* réduit la sidebar */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.sidebar-collapsed .sidebar-logo span,
-.sidebar-collapsed .sidebar-nav ul li a span {
-  display: none; /* cacher le texte */
-}
-/*********************/
-
-/* Bouton toggle sidebar */
-.sidebar-toggle {
-  margin-top: 400px;            /* pousse le bouton en bas */
+  position: absolute;
+  bottom: 20px;
+  
+  
   padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   background-color: transparent;
-  border: 2px solid #ffffff;   /* cadre blanc */
+  border: 2px solid #ffffff;
   border-radius: 6px;
   width: 35px;
   height: 35px;
@@ -329,65 +249,48 @@
 }
 
 .sidebar-toggle:hover {
-  background-color: #1c3b6c;   /* bleu foncé au hover */
+  background-color: #1c3b6c;
   color: #ffffff;
 }
 
 .toggle-icon {
-  color: #ffffff;              /* flèche blanche */
+  color: #ffffff;
   font-weight: bold;
   font-size: 1.2rem;
   user-select: none;
 }
 
-/* Sidebar réduite : on garde le bouton visible */
+.sidebar-toggle i {
+  transition: transform 0.3s;
+}
+
+.sidebar-collapsed .sidebar-toggle i {
+  transform: rotate(180deg);
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+
+.sidebar-collapsed {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-collapsed .sidebar-logo span,
+.sidebar-collapsed .sidebar-nav ul li a span {
+  display: none;
+}
+
 .sidebar-collapsed .sidebar-toggle {
-  margin-left: auto;
-  margin-right: auto;
+  left: 50%;
+  transform: translateX(-50%);
 }
-/*mettre le logo et les icônes au centre dans le cas de réduction*/
+
 .sidebar-collapsed .sidebar-nav ul li a {
-  justify-content: center; /* centre les icônes */
-}
-.sidebar-collapsed .sidebar-logo {
-  justify-content: center; /* centre logo horizontalement */
-}
-  
-/****ajouter style pour le cercle****/
-.topbar {
-  height: 70px;
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 30px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.topbar-profile-pic {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  background-color: #e0e0e0;
-  cursor: pointer;
-  font-size: 1.2rem;
-  color: #555;
 }
 
-.topbar-profile-pic img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
+.sidebar-collapsed .sidebar-logo {
+  justify-content: center;
 }

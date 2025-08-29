@@ -65,4 +65,13 @@ ngOnInit(): void {
   goToOrganisation() {
     this.router.navigate(['/dashboard/organisation']);
   }
+
+logout() {
+    // Optionally: clear localStorage/sessionStorage if you store tokens
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // Redirect to login page
+    this.router.navigate(['/login']);
+  }
 }

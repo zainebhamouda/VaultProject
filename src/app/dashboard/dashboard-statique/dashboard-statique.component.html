@@ -41,23 +41,28 @@
 
   <!-- Recent activity -->
   <div class="activity-card">
-    <h4>Recent Activity</h4>
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>User</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let activity of recentActivities">
-          <td>{{ activity.date }}</td>
-          <td>{{ activity.user }}</td>
-          <td>{{ activity.action }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <h4>Items History</h4>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Organisation</th>
+        <th>Item</th>
+        <th>User</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let h of itemHistory">
+        <td>{{ h.createdAt }}</td>
+        <td>{{ h.orgName }}</td>
+        <td>{{ h.itemTitle }}</td>
+        <td>{{ h.userName }}</td>
+        <td>{{ h.actionType }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
 </div>
