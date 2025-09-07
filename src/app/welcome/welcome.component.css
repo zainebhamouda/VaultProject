@@ -67,7 +67,7 @@
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .auth-btn:hover {
@@ -155,14 +155,16 @@
 
         .features {
             padding: 80px 5%;
+            margin-top: 70px;
+            margin-bottom: 60px;
             background: #f8fafc;
             border-top: 1px solid #e1e8ef;
         }
 
         .features h2 {
             text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 50px;
+            font-size: 2.4rem;
+            margin-bottom: 60px;
             color: #193668;
         }
 
@@ -172,25 +174,69 @@
             gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
+            
         }
 
-        .feature-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
+ .feature-card {
+  background: linear-gradient(145deg, #f9f9f9, #ffffff);
+  border-radius: 18px;
+  padding: 30px 45px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease forwards;
+  opacity: 0;
+}
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
+.feature-card:hover {
+  transform: translateY(-8px) scale(1.03) rotate(-1deg);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12),
+              0 0 18px rgba(19, 109, 205, 0.25);
+}
+
+/* Glow effect border */
+.feature-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(19,109,205,0.25), rgba(25,54,104,0.25));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+.feature-card * {
+  position: relative;
+  z-index: 1; /* Pour garder le texte au-dessus du glow */
+}
+
+/* Animation d’apparition */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 
         .feature-icon {
-            font-size: 2.5rem;
+            font-size: 2.7rem;
             color: #136dcd;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .feature-card h3 {
@@ -258,11 +304,7 @@
                 font-size: 1.2rem;
             }
             
-            .auth-btn {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-            
+           
             .text-content h1 {
                 font-size: 2rem;
             }
@@ -308,18 +350,18 @@
   color: transparent;
 }
 
-/*********** how it works & testimonials **************/
 /* --- How It Works Section --- */
 .how-it-works {
   padding: 80px 20px;
   background: #d3dae4;
   text-align: center;
-  min-height: 80vh; 
+  min-height: 90vh; 
 }
 
 .how-it-works h2 {
   font-size: 2.2rem;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
+  margin-top: 60px;
   color: #1a2b49;
 }
 
@@ -334,8 +376,8 @@
   background: #f4f6f7;
   border-radius: 19px;
   padding: 30px 28px;
-  width: 300px;
-  min-height: 250px;
+  width: 350px;
+  min-height: 300px;
   text-align: center;
   box-shadow: 0 6px 15px rgba(0,0,0,0.09);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -349,7 +391,8 @@
 .step i {
   font-size: 40px;
   color: #007bff;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
+  margin-top: 35px;
 }
 
 .step h3 {
@@ -364,17 +407,25 @@
 }
 
 /* --- Testimonials Section --- */
+
 .testimonials {
   padding: 80px 20px;
   background: #fff;
   text-align: center;
-  min-height: 70vh; 
+  min-height: 70vh;
 }
 
 .testimonials h2 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 40px;
   color: #1a2b49;
+  display: flex;
+  margin-bottom: 60px;
+  font-weight: 500;
+  margin-top: 70px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .testimonial-cards {
@@ -385,30 +436,75 @@
 }
 
 .testimonial {
-  background: #e4e6e8;
+  background: #f8fafc;
   border-radius: 14px;
   padding: 25px 20px;
-  width: 300px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  font-style: italic;
+  width: 320px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
   transition: transform 0.3s ease;
+  text-align: left;
 }
 
 .testimonial:hover {
-  transform: scale(1.05);
+  transform: translateY(-6px);
+}
+
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 12px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #846aed, #345da5);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+.testimonial .user-info {
+  display: flex;
+  flex-direction: column;  
+  align-items: flex-start;
+  margin-left: 10px;
+}
+
+
+.user-name {
+  font-weight: bold;
+  margin-left: 15px;
+  margin-top: 20px;
+  color: #0c3e96;
+  font-size: 1.3rem;
+}
+
+.user-info small {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.text-gold {
+  color: #f4c542;
+  
 }
 
 .testimonial p {
-  font-size: 0.95rem;
-  color: #444;
-  margin-bottom: 15px;
+  font-size: 1rem;
+  color: #1b1b1b;
+  margin-top: 40px;
+  margin-bottom: 70px;
+  line-height: 1.5;
+  font-style: italic;
 }
 
-.testimonial span {
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: #000000;
-}
+
 
 /* --- Final Call to Action Section --- */
 .final-cta {

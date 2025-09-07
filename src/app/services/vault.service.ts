@@ -3,12 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Vault {
-  id?: number;
   name: string;
   type: string;
   folder: string;
   owner: string;
+  organization: string;
+  selected?: boolean;
 }
+
 
 @Injectable({
   providedIn: 'root'

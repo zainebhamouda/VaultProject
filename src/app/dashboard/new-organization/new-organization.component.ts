@@ -5,12 +5,14 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-new-organization',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './new-organization.component.html',
   styleUrls: ['./new-organization.component.css']
 })
-export class NewOrganizationComponent {
+export class NewOrganizationComponent  {
   constructor(private router: Router) {}
+
   orgName: string = '';
   billingEmail: string = '';
   plan: string = '';
@@ -19,7 +21,7 @@ export class NewOrganizationComponent {
   cardExpiration: string = '';
   cardCvv: string = '';
   country: string = '';
-  postalCode: string = ''; // <-- Ajouté pour corriger l'erreur
+  postalCode: string = '';
 
   orgNameTouched: boolean = false;
   billingEmailTouched: boolean = false;
@@ -29,26 +31,45 @@ export class NewOrganizationComponent {
   cardExpirationTouched: boolean = false;
   cardCvvTouched: boolean = false;
   countryTouched: boolean = false;
-  postalCodeTouched: boolean = false; // facultatif
+  postalCodeTouched: boolean = false;
 
-onSubmit() {
-  this.orgNameTouched = true;
-  this.billingEmailTouched = true;
-  this.planTouched = true;
+  mode: 'admin' | 'manager' | null = null;
 
-  if (!this.orgName || !this.billingEmail || !this.plan) return;
 
-  const confirmed = confirm('✅ Organization successfully created!\n\nClick OK to go to your Vaults.');
-  if (confirmed) {
-    this.router.navigate(['/dashboard/vaults'], {
-      state: { 
-        newOrg: this.orgName
-      }
-    });
+   ngOnInit() {
+    // Récupérer le mode depuis le DashboardComponent via history.state ou localStorage
+    const navState: any = history.state;
+    if (navState?.mode) {
+      this.mode = navState.mode;
+    } else {
+      // fallback si non défini (par ex. page reload)
+      const storedMode = localStorage.getItem('isAdminMode');
+      this.mode = storedMode === 'true' ? 'admin' : 'manager';
+    }
   }
-}
+
+  onSubmit() {
+    const orgs = JSON.parse(localStorage.getItem('organizations') || '[]');
+    const newOrg = {
+      id: Date.now(),
+      name: this.orgName,
+      plan: this.plan
+    };
+    orgs.unshift(newOrg);
+    localStorage.setItem('organizations', JSON.stringify(orgs));
+
+    // 🔹 Navigation selon le mode exact
+    if (this.mode === 'admin') {
+      this.router.navigate([`/dashboard/organisation/${newOrg.id}`], {
+        state: { orgId: newOrg.id, orgName: newOrg.name }
+      });
+    } else {
+      this.router.navigate(['/dashboard/vaults'], { state: { newOrg: newOrg.name } });
+    }
+
+    // Reset formulaire
+    this.orgName = '';
+    this.plan = '';
+  }
 
 }
-
-
-

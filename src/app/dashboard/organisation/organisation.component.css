@@ -11,7 +11,8 @@
 
 /* Sidebar */
 .vaults-sidebar {
-  width: 290px;
+  width: 320px;
+  height: 450px;
   border: 1px solid #7e8495;
   border-radius: 6px;
   padding: 12px;

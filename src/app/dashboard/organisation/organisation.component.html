@@ -1,144 +1,81 @@
 <div class="vaults-container">
   <!-- Sidebar filter -->
-<aside class="vaults-sidebar">
-  <h4>FILTERS</h4>
+  <aside class="vaults-sidebar">
+    <h4>Filters</h4>
 
-  <div class="search-box">
-    <i class="fas fa-search search-icon"></i>
-    <input type="text" placeholder="Search in the vaults" [(ngModel)]="searchText" />
-  </div>
-
-  <h5 class="blue">Vaults</h5>
-  <ul>
-    <li (click)="selectVault('all')" [class.active]="selectedVault==='all'">
-      <i class="far fa-folder"></i>
-      <span>All Vaults</span>
-    </li>
-    <li (click)="selectVault('my')" [class.active]="selectedVault==='my'">
-      <i class="far fa-user"></i>
-      <span>My Vault</span>
-    </li>
-    <li *ngFor="let org of organizations.slice(2)"  
-        (click)="selectVault(org)"
-        [class.active]="selectedVault===org">
-      <i class="far fa-building"></i>
-      <span>{{ org }}</span>
-    </li>
-    <li (click)="goToNewOrganization()" [class.active]="selectedVault==='newOrg'">
-      <i class="fas fa-plus"></i>
-      <span>New Organization</span>
-    </li>
-  </ul>
-
-  <h5 class="blue">Items</h5>
-  <ul>
-    <li (click)="selectType('all')" [class.active]="selectedType==='all'">
-      <i class="far fa-file-alt"></i>
-      <span>All Items</span>
-    </li>
-    <li (click)="selectType('favorites')" [class.active]="selectedType==='favorites'">
-      <i class="far fa-star"></i>
-      <span>Favorites</span>
-    </li>
-    <li (click)="selectType('login')" [class.active]="selectedType==='login'">
-      <i class="far fa-globe"></i>
-      <span>Login</span>
-    </li>
-    <li (click)="selectType('card')" [class.active]="selectedType==='card'">
-      <i class="far fa-credit-card"></i>
-      <span>Payment Card</span>
-    </li>
-    <li (click)="selectType('identity')" [class.active]="selectedType==='identity'">
-      <i class="far fa-id-card"></i>
-      <span>Identity</span>
-    </li>
-    <li (click)="selectType('note')" [class.active]="selectedType==='note'">
-      <i class="far fa-sticky-note"></i>
-      <span>Note</span>
-    </li>
-    <li (click)="selectType('ssh')" [class.active]="selectedType==='ssh'">
-      <i class="far fa-key"></i>
-      <span>SSH Key</span>
-    </li>
-  </ul>
-
-  <h5 class="blue">Folders</h5>
-  <ul>
-    <li (click)="selectFolder('none')" [class.active]="selectedFolder==='none'">
-      <i class="far fa-folder-open"></i>
-      <span>No Folder</span>
-    </li>
-    <li (click)="selectFolder('trash')" [class.active]="selectedFolder==='trash'">
-      <i class="far fa-trash-alt"></i>
-      <span>Trash</span>
-    </li>
-  </ul>
-
-  <!-- Collections, seulement si organisation sélectionnée -->
-  <h5 class="blue" *ngIf="showCollections()">Collections</h5>
-  <ul *ngIf="showCollections()">
-    <li *ngFor="let c of orgCollectionsMap[selectedVault]"
-        (click)="selectCollection(c)"
-        [class.active]="selectedCollection===c">
-      <i class="far fa-folder"></i>
-      <span>{{ c }}</span>
-    </li>
-  </ul>
-</aside>
-
-<main class="vaults-content">
- <div class="vaults-header">
-
-  <h3>All Vaults</h3>
-  <div class="new-item-dropdown">
-<button class="btn-new" (click)="toggleDropdown()">
-  <i class="fas fa-plus"></i> New
-</button>    
-    <div class="dropdown-menu" [class.show]="showDropdown">
-      <div class="dropdown-item" (click)="selectVaultType('login')">
-        <i class="dropdown-icon fas fa-user"></i>
-        <span>Login</span>
-      </div>
-      <div class="dropdown-item" (click)="selectVaultType('card')">
-        <i class="dropdown-icon fas fa-credit-card"></i>
-        <span>Card</span>
-      </div>
-      <div class="dropdown-item" (click)="selectVaultType('identity')">
-        <i class="dropdown-icon fas fa-id-card"></i>
-        <span>Identity</span>
-      </div>
-      <div class="dropdown-item" (click)="selectVaultType('note')">
-        <i class="dropdown-icon fas fa-sticky-note"></i>
-        <span>Note</span>
-      </div>
-      
-      <div class="dropdown-item" (click)="selectVaultType('folder')">
-        <i class="dropdown-icon fas fa-folder"></i>
-        <span>Folder</span>
-      </div>
-      <div class="dropdown-item" (click)="selectVaultType('collection')">
-        <i class="dropdown-icon fas fa-folder-plus"></i>
-        <span>Collection</span>
-      </div>
-
- </div>
-  </div>
-  </div>
-  <!-- Type selection popup -->
-  <div class="overlay" *ngIf="showTypeSelector">
-    <div class="type-selector">
-      <h4>Select an item type</h4>
-      <ul>
-        <li *ngFor="let t of vaultTypes" (click)="selectVaultType(t.key)">
-          {{ t.label }}
-        </li>
-      </ul>
-      <button class="btn-cancel" (click)="showTypeSelector=false">Cancel</button>
+    <div class="search-box">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" placeholder="Search in the collection" [(ngModel)]="searchText" />
     </div>
-  </div>
 
-  
-  <!-- Formulaire dynamique selon type -->
+    <h4 style="font-weight: bold;" class="blue">All Items</h4>
+    <ul>
+      
+      <li (click)="selectType('favorites')" [class.active]="selectedType==='favorites'">
+        <i class="far fa-star"></i>
+        <span>Favorites</span>
+      </li>
+      <li (click)="selectType('login')" [class.active]="selectedType==='login'">
+        <i class="far fa-globe"></i>
+        <span>Login</span>
+      </li>
+      <li (click)="selectType('card')" [class.active]="selectedType==='card'">
+        <i class="far fa-credit-card"></i>
+        <span>Payment Card</span>
+      </li>
+      <li (click)="selectType('identity')" [class.active]="selectedType==='identity'">
+        <i class="far fa-id-card"></i>
+        <span>Identity</span>
+      </li>
+      <li (click)="selectType('note')" [class.active]="selectedType==='note'">
+        <i class="far fa-sticky-note"></i>
+        <span>Note</span>
+      </li>
+      
+      <li (click)="selectType('collection')" [class.active]="selectedType==='collection'">
+        <i class="far fa-folder"></i>
+        <span>Collections</span>
+      </li>
+      <li (click)="selectType('trash')" [class.active]="selectedType==='trash'">
+        <i class="far fa-trash-alt"></i>
+        <span>Trash</span>
+      </li>
+    </ul>
+  </aside>
+
+  <main class="vaults-content">
+    <div class="vaults-header">
+      <div class="new-item-dropdown">
+        <button style="margin-left: 700px;" class="btn-new" (click)="toggleDropdown()">
+          <i class="fas fa-plus"></i> New
+        </button>
+        <div class="dropdown-menu" [class.show]="showDropdown">
+          <div class="dropdown-item" (click)="selectVaultType('login')">
+            <i class="dropdown-icon fas fa-user"></i>
+            <span>login</span>
+          </div>
+          <div class="dropdown-item" (click)="selectVaultType('card')">
+            <i class="dropdown-icon fas fa-credit-card"></i>
+            <span>Card</span>
+          </div>
+          <div class="dropdown-item" (click)="selectVaultType('identity')">
+            <i class="dropdown-icon fas fa-id-card"></i>
+            <span>Identity</span>
+          </div>
+          <div class="dropdown-item" (click)="selectVaultType('note')">
+            <i class="dropdown-icon fas fa-sticky-note"></i>
+            <span>Note</span>
+          </div>
+          
+          <div class="dropdown-item" (click)="selectVaultType('collection')">
+            <i class="dropdown-icon fas fa-folder-plus"></i>
+            <span>Collection</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- Formulaire dynamique selon type -->
 <div class="overlay" *ngIf="showAddForm && currentVaultType">
   <div class="form-container">
     <form>
@@ -532,91 +469,36 @@
     </div>
   </div>
 
-  <!-- General form for + New Item -->
-  <div class="overlay" *ngIf="showAddForm && !currentVaultType">
-    <div class="form-container">
-      <h4>New Login</h4>
-     <!-- 🔹 Blue info box -->
-    <div style="border: 1.58px solid #007BFF; background-color: #E6F0FF; color: #1b1c1c; padding: 10px; border-radius: 15px; margin-bottom: 10px;background: #d8e2ed;">
-      <h5 style="color: #1b1c1c;">Save time with autofill.</h5>
-      Include a website so that this login appears as an autofill suggestion.
-    </div>
-      <form>
-        <label>Item Name (required)</label>
-        <input [(ngModel)]="newVaultName" name="name" />
 
-        <label>Owner</label>
-<select [(ngModel)]="newVaultOwner" name="owner">
-  <!-- Email principal -->
-  <option [value]="userEmail">{{ userEmail }}</option>
-
-  <!-- Emails des organisations/membres -->
-  <option *ngFor="let member of organizationMembers" [value]="member.email">
-    {{ member.email }}
-  </option>
-</select>
-
-
-        <label>Folder</label>
-        <input [(ngModel)]="newVaultFolder" name="folder" />
-
-        <label>Username</label>
-        <input [(ngModel)]="newVaultUsername" name="username" />
-
-        <label>Password</label>
-        <input [(ngModel)]="newVaultPassword" type="password" name="password" />
-
-        <label>SSH Key</label>
-        <input [(ngModel)]="newVaultSSHKey" name="sshKey" />
-
-        <label>Website (URI)</label>
-        <input type="text" name="website" />
-
-        <label>Notes</label>
-        <textarea [(ngModel)]="newVaultNote" name="note"></textarea>
-
-        <div style="margin-top:10px;">
-          <button type="button" class="btn-save"
-                  (click)="addVault(newVaultName,'login',newVaultFolder,newVaultOwner,'My Vault')">
-            Save
-          </button>
-          <button type="button" class="btn-cancel" (click)="closeForm()">Cancel</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <table class="vaults-table">
-    <thead>
-  <tr>
-    <th>
-      <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-        <input type="checkbox" [checked]="allSelected" (change)="toggleAll($event)" />
-        <span>All</span>
-      </label>
-    </th>
-    <th>Name</th>
-    <th>Owner</th>
-  </tr>
-</thead>
-    <tbody>
-      <tr *ngFor="let vault of filteredVaults()">
-        <td><input type="checkbox" [(ngModel)]="vault.selected" (change)="checkIfAllSelected()" /></td>
-        <td>{{ vault.name }}</td>
-        <td>{{ vault.owner }}</td>
-      </tr>
-      <tr *ngIf="filteredVaults().length === 0">
-        <td colspan="3" class="empty">
-          <div class="empty-state">
-          <i class="fas fa-box-open empty-icon"></i>
-          <p style="font-size: 1.3rem;">No items to display.</p>
-          </div>
-
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</main>
-
-
+    <!-- Table des items -->
+    <table class="vaults-table">
+      <thead>
+        <tr>
+          <th>
+  <label style="display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
+    <input type="checkbox" [checked]="allSelected" (change)="toggleAll($event)" />
+    <span>All</span>
+  </label>
+</th>
+          <th>Name</th>
+          <th>Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vault of filteredVaults()">
+          <td><input type="checkbox" [(ngModel)]="vault.selected" (change)="checkIfAllSelected()" /></td>
+          <td>{{ vault.name }}</td>
+          <td>{{ vault.owner }}</td>
+        </tr>
+        <tr *ngIf="filteredVaults().length === 0">
+          <td colspan="3" class="empty">
+            <div class="empty-state">
+              <i class="fas fa-box-open empty-icon"></i>
+              <p>No items to display.</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
 </div>

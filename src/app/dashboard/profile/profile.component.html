@@ -1,43 +1,89 @@
-<div class="profile-container">
-  <!-- Sidebar -->
-  <div class="profile-sidebar">
-    <div class="profile-pic">
-      <!-- Image si existe sinon icône -->
-      <ng-container *ngIf="profileImage; else defaultIcon">
-        <img [src]="profileImage" alt="Profile Image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
-      </ng-container>
-      <ng-template #defaultIcon>
-        <span>👤</span>
-      </ng-template>
+<div class="profile-wrapper">
+  <div class="profile-card">
 
-      <!-- Bouton ajouter photo -->
-      <div class="add-photo" (click)="triggerFileInput(fileInput)">+</div>
-      <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)" accept="image/*" />
+    <!-- Photo de profil avec le bouton pour modifier l'avatar -->
+    <div class="profile-pic-container">
+      <div class="profile-pic" [ngStyle]="{'background-color': avatarColor}">
+        <ng-container *ngIf="!profileImage">
+          <span>{{ getInitials() }}</span>
+        </ng-container>
+        
+      </div>
+      <!-- Bouton de modification de l'avatar -->
+      <button class="edit-avatar-btn" (click)="openModal()"><i class="fas fa-edit"></i> Edit Avatar</button>
     </div>
 
-    <div class="last-name">{{ lastName }}</div>
+    <!-- Infos utilisateur -->
+    <div class="profile-form">
+      <form>
+        <!-- Last Name -->
+        <div class="form-group">
+          <label for="lastName">Nom de famille</label>
+          <input id="lastName" type="text" [(ngModel)]="lastName" name="lastName" [readonly]="!isEditing" placeholder="Entrez votre nom de famille"/>
+        </div>
+
+        <!-- First Name -->
+        <div class="form-group">
+          <label for="firstName">Prénom</label>
+          <input id="firstName" type="text" [(ngModel)]="firstName" name="firstName" [readonly]="!isEditing" placeholder="Entrez votre prénom"/>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" [(ngModel)]="email" name="email" [readonly]="!isEditing" placeholder="Entrez votre email"/>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" *ngIf="!isEditing" (click)="toggleEdit()">Editer</button>
+          <button type="button" *ngIf="isEditing" (click)="saveChanges()">Save</button>
+        </div>
+      </form>
+    </div>
+<!-- Avatar Modal -->
+<div class="modal" *ngIf="isModalOpen" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+
+    <!-- Topbar -->
+    <div class="modal-header">
+      <h3>Customize Avatar</h3>
+    </div>
+<!-- Avatar color choices -->
+<div class="avatar-options">
+  <div 
+    *ngFor="let color of avatarColors"
+    class="avatar-circle"
+    [ngStyle]="{'background-color': color}"
+    (click)="avatarColor = color"
+    [class.selected]="avatarColor === color">
   </div>
 
-  <!-- Formulaire -->
-  <div class="profile-form">
-    <form>
-      <div class="form-row">
-        <label>Last Name</label>
-        <input type="text" [(ngModel)]="lastName" name="lastName" [readonly]="!isEditing" />
-        
-        <label>First Name</label>
-        <input type="text" [(ngModel)]="firstName" name="firstName" [readonly]="!isEditing" />
-        
-        <label>Email</label>
-        <input type="email" [(ngModel)]="email" name="email" [readonly]="!isEditing" />
-        
-        
-      </div>
+  <!-- Cercle pour couleur personnalisée -->
+  <div class="avatar-circle custom-color" (click)="chooseCustomColor()">
+    <i class="fas fa-plus"></i>
+    <input type="color" #colorPicker (change)="setCustomColor(colorPicker.value)" />
+  </div>
+</div>
 
-      <div class="form-actions">
-        <button type="button" *ngIf="!isEditing" (click)="toggleEdit()">Edit</button>
-        <button type="button" *ngIf="isEditing" (click)="saveChanges()">Save</button>
-      </div>
-    </form>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+  
+  <button class="btn btn-cancel" (click)="closeModal()">Save</button>
+  <button class="btn btn-save" (click)="saveColor()">Cancel</button>
+</div>
+
+  </div>
+</div>
+
+    <!-- Danger Zone -->
+    <div class="danger-zone">
+      <h3>Zone dangereuse</h3>
+      <button class="btn-danger" (click)="disableDeviceProtection()">Désactiver la protection de nouvel appareil</button>
+      <button class="btn-danger" (click)="revokeSessions()">Révoquer les sessions</button>
+      <button class="btn-danger" (click)="clearVault()">Vider le coffre</button>
+      <button class="btn-danger delete" (click)="deleteAccount()">Supprimer le compte</button>
+    </div>
+
   </div>
 </div>
